@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baseline — Wellness, Measured Honestly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF5E8;
+    --cream-2:#F5EDDB;
+    --card:#FFFDF6;
+    --olive:#5E6B47;
+    --olive-dark:#4A5538;
+    --olive-light:#8C9A6E;
+    --gold:#C79A3C;
+    --gold-light:#E3C077;
+    --gold-dark:#A87F2A;
+    --text-hi:#3C3527;
+    --text-lo:#8A8069;
+    --text-mid:#5C5442;
+    --line:rgba(94,107,71,0.18);
+    --shadow:0 10px 30px rgba(94,71,20,0.08);
+    --radius:22px;
+    --radius-sm:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--cream); color:var(--text-mid);
+    font-family:'Nunito Sans', sans-serif; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces', serif; color:var(--text-hi); font-weight:500; margin:0;}
+  ::selection{background:var(--gold-light); color:var(--text-hi);}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:30px 0; flex-wrap:wrap; gap:14px;}
+  .wordmark{font-family:'Fraunces', serif; font-size:22px; letter-spacing:0.03em; color:var(--text-hi); font-weight:500;}
+  .wordmark span{color:var(--gold-dark); font-style:italic;}
+  .nav-links{display:flex; align-items:center; gap:30px; flex-wrap:wrap;}
+  .nav-links a{
+    font-family:'Nunito Sans', sans-serif; font-size:13.5px; font-weight:700;
+    color:var(--text-mid); text-decoration:none; padding-bottom:4px;
+    border-bottom:2px solid transparent; transition:color .15s ease, border-color .15s ease;
+  }
+  .nav-links a:hover{color:var(--olive);}
+  .nav-links a.active{color:var(--gold-dark); border-color:var(--gold);}
+
+  /* HERO */
+  .hero{padding:60px 0 20px; text-align:center;}
+  .eyebrow{
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--gold-dark); font-weight:700; margin-bottom:16px;
+  }
+  .hero h1{font-size:48px; line-height:1.18; max-width:680px; margin:0 auto;}
+  .hero h1 em{font-style:italic; color:var(--olive);}
+  .hero p{max-width:520px; margin:20px auto 0; color:var(--text-lo); font-size:16.5px;}
+  .hero-ctas{display:flex; gap:14px; justify-content:center; margin-top:32px; flex-wrap:wrap;}
+  .btn-primary, .btn-secondary{
+    padding:15px 30px; border-radius:999px; font-weight:800; font-size:14.5px;
+    text-decoration:none; display:inline-block; transition:all .15s ease;
+  }
+  .btn-primary{background:var(--olive); color:#fff;}
+  .btn-primary:hover{background:var(--olive-dark);}
+  .btn-secondary{background:var(--card); color:var(--text-hi); border:1.5px solid var(--line);}
+  .btn-secondary:hover{border-color:var(--gold);}
+
+  /* FEATURE CARDS */
+  .features{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;
+    margin-top:68px;
+  }
+  .feature-card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:32px 26px; box-shadow:var(--shadow); text-decoration:none; color:inherit;
+    display:flex; flex-direction:column; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .feature-card:hover{transform:translateY(-4px); box-shadow:0 16px 34px rgba(94,71,20,0.13);}
+  .feature-icon{
+    width:48px; height:48px; border-radius:50%; background:var(--cream-2);
+    display:flex; align-items:center; justify-content:center; font-size:21px; margin-bottom:18px;
+  }
+  .feature-card h3{font-size:19px; line-height:1.3;}
+  .feature-card p{font-size:13.5px; color:var(--text-mid); margin-top:10px; line-height:1.6; flex-grow:1;}
+  .feature-link{font-size:13px; font-weight:800; color:var(--gold-dark); margin-top:16px;}
+
+  /* ABOUT STRIP */
+  .about-strip{
+    margin-top:80px; background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:42px; box-shadow:var(--shadow); display:flex; gap:30px; align-items:center; flex-wrap:wrap;
+  }
+  .about-strip .about-badge{
+    width:64px; height:64px; border-radius:50%; background:var(--olive); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-family:'Fraunces', serif;
+    font-size:24px; flex-shrink:0;
+  }
+  .about-strip h3{font-size:20px;}
+  .about-strip p{font-size:14px; color:var(--text-lo); margin-top:8px; max-width:560px;}
+
+  /* NEWSLETTER */
+  .newsletter{
+    margin-top:60px; background:var(--olive); border-radius:var(--radius); padding:44px;
+    text-align:center; color:#fff;
+  }
+  .newsletter h3{color:#fff; font-size:25px;}
+  .newsletter p{color:rgba(255,255,255,0.8); font-size:13.5px; margin-top:8px; max-width:400px; margin-left:auto; margin-right:auto;}
+  .nl-form{display:flex; gap:10px; max-width:420px; margin:22px auto 0;}
+  .nl-form input{
+    flex:1; background:rgba(255,255,255,0.14); border:1.5px solid rgba(255,255,255,0.3);
+    color:#fff; padding:13px 18px; border-radius:999px; outline:none; font-size:14px;
+    font-family:'Nunito Sans', sans-serif; font-weight:600;
+  }
+  .nl-form input::placeholder{color:rgba(255,255,255,0.6);}
+  .nl-form input:focus{border-color:var(--gold-light);}
+  .nl-form button{
+    background:var(--gold); color:#fff; border:none; padding:13px 24px; border-radius:999px;
+    font-weight:800; cursor:pointer; font-size:13.5px; white-space:nowrap;
+  }
+  .nl-form button:hover{background:var(--gold-light);}
+  .nl-success{margin-top:14px; font-size:13px; font-weight:700; display:none;}
+  .nl-success.show{display:block;}
+
+  footer{margin-top:70px; border-top:1px solid var(--line); padding:30px 0 60px;}
+  .disclaimer{font-size:12px; color:var(--text-lo); max-width:640px; line-height:1.7;}
+  .foot-bottom{display:flex; justify-content:space-between; align-items:center; margin-top:22px; font-size:12px; color:var(--text-lo); font-weight:600;}
+
+  @media (max-width:760px){
+    .hero h1{font-size:32px;}
+    .features{grid-template-columns:1fr;}
+    .about-strip{flex-direction:column; text-align:center;}
+    .nl-form{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="nav">
+    <div class="wordmark">Base<span>line</span></div>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="tdee-calculator.html">TDEE Calculator</a>
+      <a href="product-swaps.html">Product Swaps</a>
+      <a href="blog.html">Blog</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="eyebrow">Wellness, Measured Honestly</div>
+    <h1>Real numbers, real swaps, and <em>zero</em> nonsense.</h1>
+    <p>Baseline is where you figure out what your body actually needs, then find the products and habits that meet you there — no fads, no fear tactics, just what the research actually supports.</p>
+    <div class="hero-ctas">
+      <a href="tdee-calculator.html" class="btn-primary">Calculate My Baseline</a>
+      <a href="product-swaps.html" class="btn-secondary">See Product Swaps</a>
+    </div>
+  </div>
+
+  <div class="features">
+    <a href="tdee-calculator.html" class="feature-card">
+      <div class="feature-icon">📐</div>
+      <h3>TDEE Calculator</h3>
+      <p>Find your true maintenance calories and a macro plan built around your actual goal — losing, maintaining, or building.</p>
+      <div class="feature-link">Calculate yours →</div>
+    </a>
+    <a href="product-swaps.html" class="feature-card">
+      <div class="feature-icon">🔄</div>
+      <h3>Product Swaps</h3>
+      <p>Simple, evidence-informed swaps for the everyday stuff in your kitchen and pantry — better options, same routine.</p>
+      <div class="feature-link">Browse swaps →</div>
+    </a>
+    <a href="blog.html" class="feature-card">
+      <div class="feature-icon">📝</div>
+      <h3>The Blog</h3>
+      <p>Short, honest reads on nutrition, training, and the wellness claims worth questioning — no filler, ever.</p>
+      <div class="feature-link">Start reading →</div>
+    </a>
+  </div>
+
+  <div class="about-strip">
+    <div class="about-badge">A</div>
+    <div>
+      <h3>Hi, I'm Ana.</h3>
+      <p>I built Baseline because most nutrition advice online is either overcomplicated or trying to sell you something before it's told you anything useful. This is the site I wish existed when I started paying attention to my own numbers.</p>
+    </div>
+  </div>
+
+  <div class="newsletter">
+    <h3>Want More Health &amp; Wellness Tips?</h3>
+    <p>Sign up for our newsletter. We send 1 email a week of stuff you truly want to know.</p>
+    <div class="nl-form">
+      <input type="email" id="nl-email" placeholder="you@email.com">
+      <button id="nl-btn">Sign Up</button>
+    </div>
+    <div class="nl-success" id="nl-success">You're in! Check your inbox 🌿</div>
+  </div>
+
+  <footer>
+    <div class="disclaimer">
+      Baseline provides general health and wellness information for educational purposes only. It is not medical advice and doesn't account for individual health conditions. Speak with a physician or registered dietitian before making significant changes to your diet or exercise routine. Baseline may earn a commission on products linked from this site.
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Baseline</div>
+      <div>Affiliate Disclosure</div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+  document.getElementById('nl-btn').addEventListener('click', () => {
+    const email = document.getElementById('nl-email').value.trim();
+    if(!isValidEmail(email)){ alert('Enter a valid email to subscribe.'); return; }
+    document.getElementById('nl-success').classList.add('show');
+    document.getElementById('nl-email').value = '';
+  });
+</script>
+
+</body>
+</html>
