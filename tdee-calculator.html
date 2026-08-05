@@ -398,7 +398,7 @@
   }
   .macro-preview{
     position:relative;
-    max-height:420px;
+    max-height:680px;
     overflow:hidden;
     border-radius:var(--radius);
     transition:max-height .8s ease;
@@ -415,14 +415,18 @@
   .macro-preview.unlocked::after{opacity:0;}
   .macro-grid{
     display:grid;
-    grid-template-columns:repeat(4, 1fr);
+    grid-template-columns:repeat(2, 1fr);
     gap:16px;
     filter:blur(16px);
     pointer-events:none;
     user-select:none;
     transition:filter .6s ease;
   }
-  .macro-grid.unlocked{filter:blur(0); pointer-events:auto;}
+  .macro-grid.unlocked{
+    filter:blur(0);
+    pointer-events:auto;
+    grid-template-columns:repeat(4, 1fr);
+  }
 
   .macro-card{
     background:var(--card);
@@ -640,7 +644,7 @@
     .spectrum-row .row-tag{font-size:9px; padding:4px 8px;}
 
     /* Gate blur: hint at content underneath instead of hiding it fully */
-    .macro-preview{max-height:460px;}
+    .macro-preview{max-height:700px;}
     .macro-grid{filter:blur(6px);}
 
     /* Macro cards: readable on mobile */
