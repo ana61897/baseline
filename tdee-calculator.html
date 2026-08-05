@@ -415,8 +415,8 @@
   .macro-preview.unlocked::after{opacity:0;}
   .macro-grid{
     display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:16px;
+    grid-template-columns:1fr;
+    gap:14px;
     filter:blur(16px);
     pointer-events:none;
     user-select:none;
@@ -425,31 +425,39 @@
   .macro-grid.unlocked{
     filter:blur(0);
     pointer-events:auto;
-    grid-template-columns:repeat(4, 1fr);
   }
 
   .macro-card{
     background:var(--card);
     border:1px solid var(--line);
     border-radius:var(--radius);
-    padding:24px 20px;
+    padding:24px 28px;
     box-shadow:var(--shadow);
     display:flex;
-    flex-direction:column;
+    align-items:center;
+    gap:26px;
+    flex-wrap:wrap;
+  }
+  .macro-card .m-left{
+    display:flex; align-items:center; gap:16px;
+    flex:0 0 auto;
+    min-width:230px;
   }
   .macro-card .m-icon{
-    width:38px; height:38px; border-radius:50%;
+    width:44px; height:44px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    font-size:17px; margin-bottom:14px;
+    font-size:19px; flex-shrink:0;
   }
   .macro-card.protein .m-icon{background:rgba(94,107,71,0.14);}
   .macro-card.carbs .m-icon{background:rgba(199,154,60,0.16);}
   .macro-card.fat .m-icon{background:rgba(140,154,110,0.18);}
   .macro-card.fiber .m-icon{background:rgba(168,127,42,0.14);}
+  .macro-card .m-left-text{display:flex; flex-direction:column;}
   .macro-card .m-name{font-size:11.5px; font-weight:800; color:var(--text-lo); letter-spacing:0.04em; text-transform:uppercase;}
-  .macro-card .m-grams{font-family:'Fraunces', serif; font-size:29px; color:var(--text-hi); margin-top:6px; font-weight:600;}
+  .macro-card .m-grams{font-family:'Fraunces', serif; font-size:29px; color:var(--text-hi); margin-top:4px; font-weight:600;}
   .macro-card .m-grams span{font-size:13px; color:var(--text-lo); font-weight:600; font-family:'Nunito Sans', sans-serif;}
-  .macro-bar-bg{height:6px; background:var(--cream-2); margin-top:14px; border-radius:999px; overflow:hidden;}
+  .macro-card .m-mid{flex:0 0 150px;}
+  .macro-bar-bg{height:6px; background:var(--cream-2); border-radius:999px; overflow:hidden;}
   .macro-bar-fill{height:100%; width:0%; border-radius:999px; transition:width 1s ease;}
   .macro-card.protein .macro-bar-fill{background:var(--olive);}
   .macro-card.carbs .macro-bar-fill{background:var(--gold);}
@@ -457,8 +465,10 @@
   .macro-card.fiber .macro-bar-fill{background:var(--gold-dark);}
   .macro-card .m-pct{font-size:11.5px; color:var(--text-lo); margin-top:8px; font-weight:600;}
   .macro-card .m-sources{
-    font-size:11.5px; color:var(--text-lo); margin-top:16px; padding-top:14px;
-    border-top:1px solid var(--line); line-height:1.5; flex-grow:1;
+    font-size:13px; color:var(--text-lo); line-height:1.55;
+    flex:1; min-width:220px;
+    border-left:1px solid var(--line);
+    padding-left:24px;
   }
   .macro-card .m-sources strong{
     display:block; color:var(--text-mid); font-size:10.5px; font-weight:800;
@@ -648,7 +658,18 @@
     .macro-grid{filter:blur(6px);}
 
     /* Macro cards: readable on mobile */
-    .macro-card{padding:22px 20px;}
+    .macro-card{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:14px;
+      padding:22px 20px;
+    }
+    .macro-card .m-left{min-width:0;}
+    .macro-card .m-mid{flex:1; width:100%;}
+    .macro-card .m-sources{
+      border-left:none; border-top:1px solid var(--line);
+      padding-left:0; padding-top:14px; width:100%;
+    }
     .macro-card .m-grams{font-size:32px;}
     .macro-card .m-sources{font-size:13px;}
     .macro-card .m-sources strong{font-size:11.5px;}
@@ -793,36 +814,60 @@
       <div class="macro-preview" id="macro-preview">
         <div class="macro-grid" id="macro-grid">
         <div class="macro-card protein">
-          <div class="m-icon">🥩</div>
-          <div class="m-name">Protein</div>
-          <div class="m-grams"><span id="protein-g">0</span><span> g</span></div>
-          <div class="macro-bar-bg"><div class="macro-bar-fill" id="protein-bar"></div></div>
-          <div class="m-pct"><span id="protein-pct">0</span>% of calories</div>
+          <div class="m-left">
+            <div class="m-icon">🥩</div>
+            <div class="m-left-text">
+              <div class="m-name">Protein</div>
+              <div class="m-grams"><span id="protein-g">0</span><span> g</span></div>
+            </div>
+          </div>
+          <div class="m-mid">
+            <div class="macro-bar-bg"><div class="macro-bar-fill" id="protein-bar"></div></div>
+            <div class="m-pct"><span id="protein-pct">0</span>% of calories</div>
+          </div>
           <div class="m-sources"><strong>Good Sources</strong>Chicken breast, shrimp, pork tenderloin, lentils, vegetarian meat substitutes</div>
         </div>
         <div class="macro-card carbs">
-          <div class="m-icon">🍠</div>
-          <div class="m-name">Carbohydrates</div>
-          <div class="m-grams"><span id="carbs-g">0</span><span> g</span></div>
-          <div class="macro-bar-bg"><div class="macro-bar-fill" id="carbs-bar"></div></div>
-          <div class="m-pct"><span id="carbs-pct">0</span>% of calories</div>
+          <div class="m-left">
+            <div class="m-icon">🍠</div>
+            <div class="m-left-text">
+              <div class="m-name">Carbohydrates</div>
+              <div class="m-grams"><span id="carbs-g">0</span><span> g</span></div>
+            </div>
+          </div>
+          <div class="m-mid">
+            <div class="macro-bar-bg"><div class="macro-bar-fill" id="carbs-bar"></div></div>
+            <div class="m-pct"><span id="carbs-pct">0</span>% of calories</div>
+          </div>
           <div class="m-sources"><strong>Good Sources</strong>Rice, potatoes, bananas, quinoa, sweet potatoes, pasta</div>
         </div>
-        <div class="macro-card fat">
-          <div class="m-icon">🥑</div>
-          <div class="m-name">Fat</div>
-          <div class="m-grams"><span id="fat-g">0</span><span> g</span></div>
-          <div class="macro-bar-bg"><div class="macro-bar-fill" id="fat-bar"></div></div>
-          <div class="m-pct"><span id="fat-pct">0</span>% of calories</div>
-          <div class="m-sources"><strong>Good Sources</strong>Coconut oil, olive oil, nuts, avocado, egg yolks, cheese, salmon, nut butters</div>
-        </div>
         <div class="macro-card fiber">
-          <div class="m-icon">🌾</div>
-          <div class="m-name">Fiber</div>
-          <div class="m-grams"><span id="fiber-g">0</span><span> g</span></div>
-          <div class="macro-bar-bg"><div class="macro-bar-fill" id="fiber-bar" style="width:100%;"></div></div>
-          <div class="m-pct">Daily target</div>
+          <div class="m-left">
+            <div class="m-icon">🌾</div>
+            <div class="m-left-text">
+              <div class="m-name">Fiber</div>
+              <div class="m-grams"><span id="fiber-g">0</span><span> g</span></div>
+            </div>
+          </div>
+          <div class="m-mid">
+            <div class="macro-bar-bg"><div class="macro-bar-fill" id="fiber-bar" style="width:100%;"></div></div>
+            <div class="m-pct">Daily target</div>
+          </div>
           <div class="m-sources"><strong>Good Sources</strong>Chia seeds, beans, popcorn, flaxseed, chickpeas, whole grains</div>
+        </div>
+        <div class="macro-card fat">
+          <div class="m-left">
+            <div class="m-icon">🥑</div>
+            <div class="m-left-text">
+              <div class="m-name">Fat</div>
+              <div class="m-grams"><span id="fat-g">0</span><span> g</span></div>
+            </div>
+          </div>
+          <div class="m-mid">
+            <div class="macro-bar-bg"><div class="macro-bar-fill" id="fat-bar"></div></div>
+            <div class="m-pct"><span id="fat-pct">0</span>% of calories</div>
+          </div>
+          <div class="m-sources"><strong>Good Sources</strong>Coconut oil, olive oil, nuts, avocado, egg yolks, cheese, salmon, nut butters</div>
         </div>
         </div>
       </div>
