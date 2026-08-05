@@ -144,7 +144,7 @@
     border:1.5px solid transparent;
     color:var(--text-hi);
     padding:13px 16px;
-    font-size:15px;
+    font-size:16px;
     font-family:'Nunito Sans', sans-serif;
     font-weight:600;
     border-radius:var(--radius-sm);
@@ -394,8 +394,25 @@
   /* MACROS GATE */
   .gate-wrap{
     position:relative;
-    margin-top:32px;
+    margin-top:28px;
   }
+  .macro-preview{
+    position:relative;
+    max-height:210px;
+    overflow:hidden;
+    border-radius:var(--radius);
+    transition:max-height .8s ease;
+  }
+  .macro-preview.unlocked{max-height:2000px;}
+  .macro-preview::after{
+    content:'';
+    position:absolute;
+    left:0; right:0; bottom:0; height:80px;
+    background:linear-gradient(180deg, rgba(251,245,232,0), var(--cream) 85%);
+    pointer-events:none;
+    transition:opacity .5s ease;
+  }
+  .macro-preview.unlocked::after{opacity:0;}
   .macro-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -471,7 +488,7 @@
     border:1.5px solid transparent;
     color:var(--text-hi);
     padding:13px 16px;
-    font-size:14px;
+    font-size:16px;
     border-radius:999px;
     outline:none;
     font-family:'Nunito Sans', sans-serif;
@@ -546,7 +563,7 @@
   }
   .nl-form input{
     flex:1; background:rgba(255,255,255,0.14); border:1.5px solid rgba(255,255,255,0.3);
-    color:#fff; padding:13px 18px; border-radius:999px; outline:none; font-size:14px;
+    color:#fff; padding:13px 18px; border-radius:999px; outline:none; font-size:16px;
     font-family:'Nunito Sans', sans-serif; font-weight:600;
   }
   .nl-form input::placeholder{color:rgba(255,255,255,0.6);}
@@ -768,14 +785,15 @@
     </div>
 
     <div class="gate-wrap">
-      <div class="macro-grid" id="macro-grid">
+      <div class="macro-preview" id="macro-preview">
+        <div class="macro-grid" id="macro-grid">
         <div class="macro-card protein">
           <div class="m-icon">🥩</div>
           <div class="m-name">Protein</div>
           <div class="m-grams"><span id="protein-g">0</span><span> g</span></div>
           <div class="macro-bar-bg"><div class="macro-bar-fill" id="protein-bar"></div></div>
           <div class="m-pct"><span id="protein-pct">0</span>% of calories</div>
-          <div class="m-sources"><strong>Good Sources</strong>Chicken breast, shrimp, pork tenderloin, lentils</div>
+          <div class="m-sources"><strong>Good Sources</strong>Chicken breast, shrimp, pork tenderloin, lentils, vegetarian meat substitutes</div>
         </div>
         <div class="macro-card carbs">
           <div class="m-icon">🍠</div>
@@ -783,7 +801,7 @@
           <div class="m-grams"><span id="carbs-g">0</span><span> g</span></div>
           <div class="macro-bar-bg"><div class="macro-bar-fill" id="carbs-bar"></div></div>
           <div class="m-pct"><span id="carbs-pct">0</span>% of calories</div>
-          <div class="m-sources"><strong>Good Sources</strong>Sweet potatoes, rice, quinoa, bananas</div>
+          <div class="m-sources"><strong>Good Sources</strong>Rice, potatoes, bananas, quinoa, sweet potatoes, pasta</div>
         </div>
         <div class="macro-card fat">
           <div class="m-icon">🥑</div>
@@ -791,7 +809,7 @@
           <div class="m-grams"><span id="fat-g">0</span><span> g</span></div>
           <div class="macro-bar-bg"><div class="macro-bar-fill" id="fat-bar"></div></div>
           <div class="m-pct"><span id="fat-pct">0</span>% of calories</div>
-          <div class="m-sources"><strong>Good Sources</strong>Avocado, olive oil, salmon, nuts</div>
+          <div class="m-sources"><strong>Good Sources</strong>Coconut oil, olive oil, nuts, avocado, egg yolks, cheese, salmon, nut butters</div>
         </div>
         <div class="macro-card fiber">
           <div class="m-icon">🌾</div>
@@ -799,7 +817,8 @@
           <div class="m-grams"><span id="fiber-g">0</span><span> g</span></div>
           <div class="macro-bar-bg"><div class="macro-bar-fill" id="fiber-bar" style="width:100%;"></div></div>
           <div class="m-pct">Daily target</div>
-          <div class="m-sources"><strong>Good Sources</strong>Chia seeds, beans, chickpeas, whole grains</div>
+          <div class="m-sources"><strong>Good Sources</strong>Chia seeds, beans, popcorn, flaxseed, chickpeas, whole grains</div>
+        </div>
         </div>
       </div>
 
@@ -831,7 +850,7 @@
         <div class="edu-card">
           <div class="edu-icon">🥩</div>
           <h3>No, You Don't Need That Much Protein</h3>
-          <p>As much as Big Protein&trade; wants you to believe you need 150g a day to keep your bones from turning to dust, research suggests going much above 1.6g per kilo of bodyweight doesn't build any extra muscle. The sweet spot for holding onto muscle while in a deficit is right around 1.2g per kilo. <a href="https://pubmed.ncbi.nlm.nih.gov/28698222/" target="_blank" rel="noopener">See the study</a>.</p>
+          <p>As much as Big Protein&trade; would like you to believe you need 150 grams a day to stop your muscles and bones from disintegrating, the research does not support it. Studies suggest that protein intake above 1.6g/kg of body weight provides little to no additional muscle-building benefit. For maintaining muscle while eating in a calorie deficit, around 1.2g/kg is the recommended target — that's the calculation reflected in our macro calculator. <a href="https://pubmed.ncbi.nlm.nih.gov/28698222/" target="_blank" rel="noopener">See the study</a>.</p>
         </div>
         <div class="edu-card">
           <div class="edu-icon">🌾</div>
@@ -861,7 +880,7 @@
     <div class="swap-promo">
       <div class="swap-promo-icon">🔄</div>
       <h3>Ready For Better Ingredients?</h3>
-      <p>Once you know your numbers, the next step is what actually fills them. Check out our favorite product swaps — simple upgrades for the stuff already in your kitchen.</p>
+      <p>Once you know your numbers, the next step is finding what actually fits in them. Check out our favorite product swaps to keep nutrition high and calories low.</p>
       <a href="product-swaps.html" class="swap-promo-btn">See Product Swaps →</a>
     </div>
 
@@ -1100,6 +1119,7 @@
 
     document.getElementById('gate-overlay').classList.add('hidden');
     document.getElementById('macro-grid').classList.add('unlocked');
+    document.getElementById('macro-preview').classList.add('unlocked');
 
     const sentNote = document.getElementById('sent-note');
     sentNote.style.display = 'block';
