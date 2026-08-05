@@ -25,8 +25,8 @@
     --radius:22px;
     --radius-sm:14px;
   }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  *{box-sizing:border-box; touch-action:manipulation;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
   body{
     margin:0;
     background:var(--cream);
@@ -34,6 +34,9 @@
     font-family:'Nunito Sans', sans-serif;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    -webkit-text-size-adjust:100%;
+    overflow-x:hidden;
+    width:100%;
   }
   h1,h2,h3{
     font-family:'Fraunces', serif;
@@ -317,74 +320,47 @@
     width:5px; height:5px; border-radius:50%; background:var(--gold);
   }
   .spectrum-track{
-    display:flex; align-items:flex-end; justify-content:space-between;
-    gap:16px; height:170px; padding:0 6px 26px;
-    position:relative;
+    display:flex; flex-direction:column; gap:12px;
   }
-  .spectrum-track::after{
-    content:'';
-    position:absolute;
-    left:0; right:0; bottom:22px;
-    height:1px;
-    background:var(--line);
-  }
-  .petal{
-    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
-    position:relative;
-  }
-  .petal-bar{
-    width:100%;
-    max-width:54px;
-    border-radius:999px 999px 8px 8px;
-    background:linear-gradient(180deg, var(--cream-2), #EFE4CC);
-    transition:height 1s cubic-bezier(.2,.8,.2,1), background 0.3s ease;
-    position:relative;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
-  }
-  .petal.marked .petal-bar{
-    background:linear-gradient(180deg, var(--gold-light), var(--gold-dark));
-    box-shadow:0 10px 22px rgba(199,154,60,0.4), inset 0 1px 0 rgba(255,255,255,0.4);
-  }
-  .petal-bubble{
-    position:absolute;
-    top:-46px;
-    left:50%; transform:translateX(-50%);
-    background:var(--olive);
-    color:#fff;
-    font-family:'Fraunces', serif;
-    font-size:17px;
-    font-weight:600;
-    padding:7px 16px;
-    border-radius:999px;
-    white-space:nowrap;
+  .spectrum-row{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--cream-2);
+    border-radius:16px;
+    padding:20px 26px;
     opacity:0;
-    box-shadow:0 8px 18px rgba(74,85,56,0.35);
-    transition:opacity .4s ease .6s;
+    transform:translateY(6px);
+    transition:opacity .5s ease, transform .5s ease, background .3s ease;
   }
-  .petal-bubble::after{
-    content:'';
-    position:absolute;
-    bottom:-5px; left:50%; transform:translateX(-50%);
-    width:9px; height:9px;
-    background:var(--olive);
-    border-radius:2px;
-    rotate:45deg;
+  .spectrum-row.in{opacity:1; transform:translateY(0);}
+  .spectrum-row .row-left{display:flex; flex-direction:column; gap:3px;}
+  .spectrum-row .row-name{
+    font-size:19px; font-weight:800; color:var(--text-hi); letter-spacing:0.01em;
   }
-  .petal.marked .petal-bubble{opacity:1;}
-  .petal-label{margin-top:20px; text-align:center;}
-  .petal-label .name{
-    font-size:13px; font-weight:800; letter-spacing:0.03em; color:var(--text-mid);
-    text-transform:uppercase;
-  }
-  .petal.marked .petal-label .name{color:var(--gold-dark);}
-  .petal-label .val{
+  .spectrum-row .row-desc{font-size:12.5px; color:var(--text-lo); font-weight:600;}
+  .spectrum-row .row-right{display:flex; align-items:center; gap:12px;}
+  .spectrum-row .row-val{
     font-family:'Fraunces', serif;
-    font-size:18px;
-    color:var(--text-lo);
-    margin-top:4px;
-    font-weight:500;
+    font-size:26px;
+    font-weight:600;
+    color:var(--text-hi);
   }
-  .petal.marked .petal-label .val{color:var(--gold-dark); font-weight:600;}
+  .spectrum-row .row-tag{
+    font-size:10.5px; font-weight:800; letter-spacing:0.06em; text-transform:uppercase;
+    background:rgba(255,255,255,0.28);
+    color:#fff;
+    padding:5px 11px;
+    border-radius:999px;
+    display:none;
+  }
+  .spectrum-row.marked{
+    background:var(--olive);
+    box-shadow:0 12px 28px rgba(94,107,71,0.32);
+  }
+  .spectrum-row.marked .row-name,
+  .spectrum-row.marked .row-desc,
+  .spectrum-row.marked .row-val{color:#fff;}
+  .spectrum-row.marked .row-desc{color:rgba(255,255,255,0.75);}
+  .spectrum-row.marked .row-tag{display:inline-block;}
 
   /* GOAL SELECTOR */
   .goal-wrap{
@@ -422,7 +398,7 @@
   }
   .macro-grid{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(4, 1fr);
     gap:16px;
     filter:blur(16px);
     pointer-events:none;
@@ -435,18 +411,38 @@
     background:var(--card);
     border:1px solid var(--line);
     border-radius:var(--radius);
-    padding:26px 22px;
+    padding:24px 20px;
     box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
   }
-  .macro-card .m-name{font-size:12px; font-weight:700; color:var(--text-lo); letter-spacing:0.03em;}
-  .macro-card .m-grams{font-family:'Fraunces', serif; font-size:32px; color:var(--text-hi); margin-top:8px; font-weight:500;}
-  .macro-card .m-grams span{font-size:14px; color:var(--text-lo); font-weight:600; font-family:'Nunito Sans', sans-serif;}
-  .macro-bar-bg{height:6px; background:var(--cream-2); margin-top:16px; border-radius:999px; overflow:hidden;}
+  .macro-card .m-icon{
+    width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:17px; margin-bottom:14px;
+  }
+  .macro-card.protein .m-icon{background:rgba(94,107,71,0.14);}
+  .macro-card.carbs .m-icon{background:rgba(199,154,60,0.16);}
+  .macro-card.fat .m-icon{background:rgba(140,154,110,0.18);}
+  .macro-card.fiber .m-icon{background:rgba(168,127,42,0.14);}
+  .macro-card .m-name{font-size:11.5px; font-weight:800; color:var(--text-lo); letter-spacing:0.04em; text-transform:uppercase;}
+  .macro-card .m-grams{font-family:'Fraunces', serif; font-size:29px; color:var(--text-hi); margin-top:6px; font-weight:600;}
+  .macro-card .m-grams span{font-size:13px; color:var(--text-lo); font-weight:600; font-family:'Nunito Sans', sans-serif;}
+  .macro-bar-bg{height:6px; background:var(--cream-2); margin-top:14px; border-radius:999px; overflow:hidden;}
   .macro-bar-fill{height:100%; width:0%; border-radius:999px; transition:width 1s ease;}
   .macro-card.protein .macro-bar-fill{background:var(--olive);}
   .macro-card.carbs .macro-bar-fill{background:var(--gold);}
   .macro-card.fat .macro-bar-fill{background:var(--olive-light);}
-  .macro-card .m-pct{font-size:12px; color:var(--text-lo); margin-top:8px; font-weight:600;}
+  .macro-card.fiber .macro-bar-fill{background:var(--gold-dark);}
+  .macro-card .m-pct{font-size:11.5px; color:var(--text-lo); margin-top:8px; font-weight:600;}
+  .macro-card .m-sources{
+    font-size:11.5px; color:var(--text-lo); margin-top:16px; padding-top:14px;
+    border-top:1px solid var(--line); line-height:1.5; flex-grow:1;
+  }
+  .macro-card .m-sources strong{
+    display:block; color:var(--text-mid); font-size:10.5px; font-weight:800;
+    text-transform:uppercase; letter-spacing:0.03em; margin-bottom:4px;
+  }
 
   .gate-overlay{
     position:absolute;
@@ -564,6 +560,31 @@
   .nl-success{margin-top:14px; font-size:13px; font-weight:700; display:none;}
   .nl-success.show{display:block;}
 
+  /* SWAP PROMO */
+  .swap-promo{
+    margin-top:40px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:40px;
+    text-align:center;
+    box-shadow:var(--shadow);
+  }
+  .swap-promo .swap-promo-icon{
+    width:52px; height:52px; border-radius:50%; background:var(--cream-2);
+    display:flex; align-items:center; justify-content:center; font-size:23px;
+    margin:0 auto 18px;
+  }
+  .swap-promo h3{font-size:24px;}
+  .swap-promo p{color:var(--text-lo); font-size:14px; margin-top:10px; max-width:420px; margin-left:auto; margin-right:auto;}
+  .swap-promo-btn{
+    display:inline-block; margin-top:22px;
+    background:var(--olive); color:#fff; text-decoration:none;
+    font-weight:800; font-size:14px; padding:14px 28px; border-radius:999px;
+    transition:background .15s ease;
+  }
+  .swap-promo-btn:hover{background:var(--olive-dark);}
+
   /* FOOTER */
   footer{margin-top:70px; border-top:1px solid var(--line); padding:30px 0 60px;}
   .disclaimer{font-size:12px; color:var(--text-lo); max-width:640px; line-height:1.7;}
@@ -592,23 +613,29 @@
     .macro-grid, .edu-grid{grid-template-columns:1fr;}
     .nl-form{flex-direction:column;}
 
-    /* Spectrum: keep label on one line, keep bars/labels inside their box */
-    .spectrum-wrap{padding:28px 14px;}
-    .spectrum-label{font-size:15px; white-space:nowrap;}
-    .spectrum-track{height:100px; gap:4px; padding:0 2px 30px;}
-    .petal{min-width:0;}
-    .petal-bar{max-width:34px;}
-    .petal-bubble{font-size:11px; padding:5px 8px; top:-36px;}
-    .petal-label{margin-top:12px;}
-    .petal-label .name{font-size:9px; letter-spacing:0.01em; word-break:break-word;}
-    .petal-label .val{font-size:12.5px;}
+    /* Spectrum: rows stack full width, stay big and readable */
+    .spectrum-wrap{padding:26px 16px;}
+    .spectrum-label{font-size:17px;}
+    .spectrum-row{padding:16px 18px;}
+    .spectrum-row .row-name{font-size:16px;}
+    .spectrum-row .row-desc{font-size:11.5px;}
+    .spectrum-row .row-val{font-size:21px;}
+    .spectrum-row .row-tag{font-size:9px; padding:4px 8px;}
 
     /* Gate blur: hint at content underneath instead of hiding it fully */
     .macro-grid{filter:blur(6px);}
 
+    /* Macro cards: readable on mobile */
+    .macro-card{padding:22px 20px;}
+    .macro-card .m-grams{font-size:32px;}
+    .macro-card .m-sources{font-size:13px;}
+    .macro-card .m-sources strong{font-size:11.5px;}
+
     /* Educational cards: bigger, more readable type */
-    .edu-card h3{font-size:19px;}
-    .edu-card p{font-size:15px;}
+    .edu-heading h2{font-size:24px;}
+    .edu-heading p{font-size:16px;}
+    .edu-card h3{font-size:20px;}
+    .edu-card p{font-size:16px;}
   }
 </style>
 </head>
@@ -627,9 +654,9 @@
   </div>
 
   <div class="hero">
-    <div class="eyebrow">A Gentler Way to Understand Your Numbers</div>
+    <div class="eyebrow">The Better Way to Understand Your Health</div>
     <h1>Know your <em>baseline</em> before you touch a single macro.</h1>
-    <p>Your Total Daily Energy Expenditure is the number every diet, cut, or bulk actually rests on. Enter your stats once and get a clear, honest read — no guessing required.</p>
+    <p>Your Total Daily Energy Expenditure is the number every diet actually rests on. Enter your stats and get a clear read on your TDEE — no guessing required.</p>
   </div>
 
   <div class="panel">
@@ -707,7 +734,6 @@
               <li><strong>Moderate</strong> means exercise 3–5 days a week, or a job that keeps you on your feet (teaching, retail, nursing). This is usually where <strong>7,500–10,000 steps</strong> a day falls.</li>
               <li><strong>Active</strong> means hard exercise 6–7 days a week, or a physically demanding job on top of regular training. Typically <strong>10,000–12,500 steps</strong> a day.</li>
               <li><strong>Very Active</strong> is for two-a-day training, competitive athletes, or physically taxing work (construction, farming) combined with intentional exercise. Usually <strong>12,500+ steps</strong> a day.</li>
-              <li>Quick gut check: if you're consistently walking <strong>10,000 steps</strong> a day on top of any workouts, you're likely closer to <strong>Active</strong> than Moderate — even if you don't think of yourself as "an athlete."</li>
             </ul>
           </div>
         </div>
@@ -744,22 +770,36 @@
     <div class="gate-wrap">
       <div class="macro-grid" id="macro-grid">
         <div class="macro-card protein">
+          <div class="m-icon">🥩</div>
           <div class="m-name">Protein</div>
           <div class="m-grams"><span id="protein-g">0</span><span> g</span></div>
           <div class="macro-bar-bg"><div class="macro-bar-fill" id="protein-bar"></div></div>
           <div class="m-pct"><span id="protein-pct">0</span>% of calories</div>
+          <div class="m-sources"><strong>Good Sources</strong>Chicken breast, shrimp, pork tenderloin, lentils</div>
         </div>
         <div class="macro-card carbs">
+          <div class="m-icon">🍠</div>
           <div class="m-name">Carbohydrates</div>
           <div class="m-grams"><span id="carbs-g">0</span><span> g</span></div>
           <div class="macro-bar-bg"><div class="macro-bar-fill" id="carbs-bar"></div></div>
           <div class="m-pct"><span id="carbs-pct">0</span>% of calories</div>
+          <div class="m-sources"><strong>Good Sources</strong>Sweet potatoes, rice, quinoa, bananas</div>
         </div>
         <div class="macro-card fat">
+          <div class="m-icon">🥑</div>
           <div class="m-name">Fat</div>
           <div class="m-grams"><span id="fat-g">0</span><span> g</span></div>
           <div class="macro-bar-bg"><div class="macro-bar-fill" id="fat-bar"></div></div>
           <div class="m-pct"><span id="fat-pct">0</span>% of calories</div>
+          <div class="m-sources"><strong>Good Sources</strong>Avocado, olive oil, salmon, nuts</div>
+        </div>
+        <div class="macro-card fiber">
+          <div class="m-icon">🌾</div>
+          <div class="m-name">Fiber</div>
+          <div class="m-grams"><span id="fiber-g">0</span><span> g</span></div>
+          <div class="macro-bar-bg"><div class="macro-bar-fill" id="fiber-bar" style="width:100%;"></div></div>
+          <div class="m-pct">Daily target</div>
+          <div class="m-sources"><strong>Good Sources</strong>Chia seeds, beans, chickpeas, whole grains</div>
         </div>
       </div>
 
@@ -785,7 +825,7 @@
     <div class="edu-section">
       <div class="edu-heading">
         <h2>A Few Things Worth Knowing</h2>
-        <p>No fads, no fear-mongering — just what the research actually says.</p>
+        <p>No fads or fear-mongering, just what the research actually says.</p>
       </div>
       <div class="edu-grid">
         <div class="edu-card">
@@ -815,6 +855,14 @@
         <button id="nl-btn">Sign Up</button>
       </div>
       <div class="nl-success" id="nl-success">You're in! Check your inbox 🌿</div>
+    </div>
+
+    <!-- PRODUCT SWAPS PROMO -->
+    <div class="swap-promo">
+      <div class="swap-promo-icon">🔄</div>
+      <h3>Ready For Better Ingredients?</h3>
+      <p>Once you know your numbers, the next step is what actually fills them. Check out our favorite product swaps — simple upgrades for the stuff already in your kitchen.</p>
+      <a href="product-swaps.html" class="swap-promo-btn">See Product Swaps →</a>
     </div>
 
   </div>
@@ -847,6 +895,14 @@
     {mult:1.725, name:'Active'},
     {mult:1.9, name:'Very Active'}
   ];
+
+  const activityDescriptions = {
+    'Sedentary':'Desk job, minimal movement',
+    'Light':'Exercise 1–3 days a week',
+    'Moderate':'Exercise 3–5 days a week',
+    'Active':'Exercise 6–7 days a week',
+    'Very Active':'Hard training, most days'
+  };
 
   const goalConfig = {
     lose:     {label:'Losing Weight',   calAdj:0.80, proteinPerKg:1.2, fatPct:0.25},
@@ -948,38 +1004,28 @@
     document.getElementById('activity-name-inline').textContent = selected.name;
     animateNumber('tdee-number', selected.tdee);
 
-    const min = tdees[0].tdee;
-    const max = tdees[tdees.length-1].tdee;
-    const range = max - min || 1;
-
     const track = document.getElementById('spectrum-track');
     track.innerHTML = '';
 
-    tdees.forEach((t) => {
-      const heightPct = 30 + (((t.tdee - min)/range) * 70);
+    tdees.forEach((t, i) => {
       const isMarked = t.name === selected.name;
 
-      const petal = document.createElement('div');
-      petal.className = 'petal' + (isMarked ? ' marked' : '');
+      const row = document.createElement('div');
+      row.className = 'spectrum-row' + (isMarked ? ' marked' : '');
 
-      const bar = document.createElement('div');
-      bar.className = 'petal-bar';
-      bar.style.height = '0%';
+      row.innerHTML = `
+        <div class="row-left">
+          <div class="row-name">${t.name}</div>
+          <div class="row-desc">${activityDescriptions[t.name] || ''}</div>
+        </div>
+        <div class="row-right">
+          <span class="row-tag">You Are Here</span>
+          <div class="row-val">${t.tdee.toLocaleString()}</div>
+        </div>
+      `;
 
-      const bubble = document.createElement('div');
-      bubble.className = 'petal-bubble';
-      bubble.textContent = t.tdee.toLocaleString();
-      bar.appendChild(bubble);
-
-      const label = document.createElement('div');
-      label.className = 'petal-label';
-      label.innerHTML = `<div class="name">${t.name}</div><div class="val">${t.tdee.toLocaleString()}</div>`;
-
-      petal.appendChild(bar);
-      petal.appendChild(label);
-      track.appendChild(petal);
-
-      setTimeout(() => { bar.style.height = heightPct + '%'; }, 80);
+      track.appendChild(row);
+      setTimeout(() => { row.classList.add('in'); }, 80 + (i * 70));
     });
 
     const isMobile = window.matchMedia('(max-width:720px)').matches;
@@ -1020,9 +1066,13 @@
     const fatPct = Math.round((fatCals/targetCals)*100);
     const carbPct = Math.max(100 - proteinPct - fatPct, 0);
 
+    // General fiber guidance: ~14g per 1,000 calories consumed
+    const fiberG = Math.round((targetCals/1000) * 14);
+
     document.getElementById('protein-g').textContent = proteinG;
     document.getElementById('carbs-g').textContent = carbG;
     document.getElementById('fat-g').textContent = fatG;
+    document.getElementById('fiber-g').textContent = fiberG;
     document.getElementById('protein-pct').textContent = proteinPct;
     document.getElementById('carbs-pct').textContent = carbPct;
     document.getElementById('fat-pct').textContent = fatPct;
