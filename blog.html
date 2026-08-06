@@ -34,6 +34,11 @@
   }
   .nav-links a:hover{color:var(--olive);}
   .nav-links a.active{color:var(--gold-dark); border-color:var(--gold);}
+  @media (max-width:640px){
+    .nav-links{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:18px;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-links a{white-space:nowrap; flex-shrink:0;}
+  }
 
   .hero{padding:50px 0 10px; text-align:center;}
   .eyebrow{font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); font-weight:700; margin-bottom:16px;}
