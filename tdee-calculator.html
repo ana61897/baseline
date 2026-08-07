@@ -747,7 +747,7 @@
   .swap-carousel-btn:hover{border-color:var(--gold); color:var(--gold-dark);}
 
   .swap-carousel-track{
-    display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory;
+    display:flex; align-items:flex-start; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory;
     padding:4px 4px 10px; scrollbar-width:none;
   }
   .swap-carousel-track::-webkit-scrollbar{display:none;}
@@ -776,19 +776,23 @@
   }
   .swap-promo-btn:hover{background:var(--olive-dark);}
 
-  .swap-slide.product{width:270px; padding:24px;}
-  .mini-swap-flow{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .swap-slide.product{width:270px; padding:26px 22px; align-items:center; text-align:center;}
+  .mini-swap-emoji{
+    width:56px; height:56px; border-radius:50%; background:var(--cream-2);
+    display:flex; align-items:center; justify-content:center; font-size:26px;
+    margin-bottom:16px;
+  }
+  .mini-swap-flow{display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap;}
   .mini-swap-out, .mini-swap-in{
     font-size:12.5px; font-weight:700; padding:7px 13px; border-radius:999px;
   }
   .mini-swap-out{background:var(--cream-2); color:var(--text-lo); text-decoration:line-through;}
   .mini-swap-in{background:var(--olive); color:#fff;}
   .mini-swap-arrow{color:var(--gold-dark); font-size:15px;}
-  .mini-swap-desc{font-size:13px; color:var(--text-mid); margin-top:14px; line-height:1.6; flex-grow:1;}
+  .mini-swap-desc{font-size:13px; color:var(--text-mid); margin-top:14px; line-height:1.6;}
   .mini-swap-btn{
-    display:inline-block; margin-top:14px; background:var(--gold); color:#fff;
+    display:inline-block; margin-top:16px; background:var(--gold); color:#fff;
     text-decoration:none; font-size:12.5px; font-weight:800; padding:10px 18px; border-radius:999px;
-    align-self:flex-start;
   }
   .mini-swap-btn:hover{background:var(--gold-dark);}
   .mini-swap-note{font-size:10.5px; color:var(--text-lo); margin-top:9px; line-height:1.5;}
@@ -1148,6 +1152,7 @@
         </div>
 
         <div class="swap-slide product">
+          <div class="mini-swap-emoji">🍻</div>
           <div class="mini-swap-flow">
             <span class="mini-swap-out">Alcohol</span>
             <span class="mini-swap-arrow">→</span>
@@ -1159,6 +1164,7 @@
         </div>
 
         <div class="swap-slide product">
+          <div class="mini-swap-emoji">🍞</div>
           <div class="mini-swap-flow">
             <span class="mini-swap-out">White Bread</span>
             <span class="mini-swap-arrow">→</span>
@@ -1169,6 +1175,7 @@
         </div>
 
         <div class="swap-slide product">
+          <div class="mini-swap-emoji">🥤</div>
           <div class="mini-swap-flow">
             <span class="mini-swap-out">Soda</span>
             <span class="mini-swap-arrow">→</span>
@@ -1179,6 +1186,7 @@
         </div>
 
         <div class="swap-slide product">
+          <div class="mini-swap-emoji">🍬</div>
           <div class="mini-swap-flow">
             <span class="mini-swap-out">Sugar</span>
             <span class="mini-swap-arrow">→</span>
@@ -1189,6 +1197,7 @@
         </div>
 
         <div class="swap-slide product">
+          <div class="mini-swap-emoji">🧀</div>
           <div class="mini-swap-flow">
             <span class="mini-swap-out">Doritos</span>
             <span class="mini-swap-arrow">→</span>
@@ -1199,6 +1208,7 @@
         </div>
 
         <div class="swap-slide product">
+          <div class="mini-swap-emoji">🍿</div>
           <div class="mini-swap-flow">
             <span class="mini-swap-out">Popcorn Bags</span>
             <span class="mini-swap-arrow">→</span>
@@ -1209,6 +1219,7 @@
         </div>
 
         <div class="swap-slide product">
+          <div class="mini-swap-emoji">🍦</div>
           <div class="mini-swap-flow">
             <span class="mini-swap-out">Ice Cream</span>
             <span class="mini-swap-arrow">→</span>
