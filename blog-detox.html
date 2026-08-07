@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do You Really Need a Detox? — Baseline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF5E8; --cream-2:#F5EDDB; --card:#FFFDF6;
+    --olive:#5E6B47; --olive-dark:#4A5538; --olive-light:#8C9A6E;
+    --gold:#C79A3C; --gold-light:#E3C077; --gold-dark:#A87F2A;
+    --text-hi:#3C3527; --text-lo:#8A8069; --text-mid:#5C5442;
+    --line:rgba(94,107,71,0.18); --shadow:0 10px 30px rgba(94,71,20,0.08);
+    --radius:22px; --radius-sm:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--cream); color:var(--text-mid); font-family:'Nunito Sans', sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Fraunces', serif; color:var(--text-hi); font-weight:500; margin:0;}
+  ::selection{background:var(--gold-light); color:var(--text-hi);}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:30px 0; flex-wrap:wrap; gap:14px;}
+  .wordmark{font-family:'Fraunces', serif; font-size:22px; letter-spacing:0.03em; color:var(--text-hi); font-weight:500;}
+  .wordmark span{color:var(--gold-dark); font-style:italic;}
+  .nav-links{display:flex; align-items:center; gap:30px; flex-wrap:wrap;}
+  .nav-links a{
+    font-family:'Nunito Sans', sans-serif; font-size:13.5px; font-weight:700;
+    color:var(--text-mid); text-decoration:none; padding-bottom:4px;
+    border-bottom:2px solid transparent; transition:color .15s ease, border-color .15s ease;
+  }
+  .nav-links a:hover{color:var(--olive);}
+  .nav-links a.active{color:var(--gold-dark); border-color:var(--gold);}
+  @media (max-width:640px){
+    .nav-links{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:18px;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-links a{white-space:nowrap; flex-shrink:0;}
+  }
+
+  .back-link{
+    display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:13px;
+    font-weight:800; color:var(--gold-dark); text-decoration:none;
+  }
+  .back-link:hover{color:var(--olive);}
+
+  .article-header{text-align:center; padding:36px 0 0; max-width:680px; margin:0 auto;}
+  .eyebrow{font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); font-weight:700; margin-bottom:16px;}
+  .article-header h1{font-size:38px; line-height:1.22;}
+  .article-meta{font-size:13px; color:var(--text-lo); font-weight:600; margin-top:16px;}
+
+  .post-banner{
+    position:relative; height:200px; border-radius:var(--radius); overflow:hidden;
+    margin-top:36px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,#5E9088,#2F4F49);
+  }
+  .post-banner::before{
+    content:""; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,0.16) 1.5px, transparent 1.5px);
+    background-size:16px 16px; opacity:.5;
+  }
+  .post-banner .orb{
+    position:relative; width:110px; height:110px; border-radius:50%;
+    background:rgba(255,255,255,0.16);
+    display:flex; align-items:center; justify-content:center; font-size:50px;
+    box-shadow:0 10px 26px rgba(0,0,0,0.14), inset 0 0 0 1px rgba(255,255,255,0.25);
+  }
+
+  .article-body{max-width:680px; margin:40px auto 0; font-size:16.5px; line-height:1.85; color:var(--text-mid);}
+  .article-body h2{font-size:24px; margin-top:46px; margin-bottom:14px;}
+  .article-body h3{font-size:19px; margin-top:34px; margin-bottom:10px;}
+  .article-body p{margin:0 0 18px;}
+  .article-body ul, .article-body ol{margin:0 0 18px; padding-left:22px;}
+  .article-body li{margin-bottom:8px;}
+  .article-body strong{color:var(--text-hi);}
+
+  .callout{
+    background:var(--cream-2); border-left:4px solid var(--gold); border-radius:var(--radius-sm);
+    padding:20px 24px; margin:30px 0; font-size:15px; color:var(--text-mid);
+  }
+  .callout strong{color:var(--text-hi);}
+
+  .bottom-line{
+    background:var(--card); border:1.5px solid var(--line); border-radius:var(--radius);
+    padding:28px 30px; margin-top:46px; box-shadow:var(--shadow); max-width:680px; margin-left:auto; margin-right:auto;
+  }
+  .bottom-line .label{
+    font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-dark);
+    font-weight:800; margin-bottom:10px;
+  }
+  .bottom-line p{margin:0; font-size:15px; color:var(--text-mid); line-height:1.7;}
+
+  .article-footer-nav{max-width:680px; margin:44px auto 0; text-align:center; padding-bottom:10px;}
+
+  .newsletter{
+    margin-top:60px; background:var(--olive); border-radius:var(--radius); padding:44px;
+    text-align:center; color:#fff;
+  }
+  .newsletter h3{color:#fff; font-size:25px;}
+  .newsletter p{color:rgba(255,255,255,0.8); font-size:13.5px; margin-top:8px; max-width:400px; margin-left:auto; margin-right:auto;}
+  .nl-form{display:flex; gap:10px; max-width:420px; margin:22px auto 0;}
+  .nl-form input{
+    flex:1; background:rgba(255,255,255,0.14); border:1.5px solid rgba(255,255,255,0.3);
+    color:#fff; padding:13px 18px; border-radius:999px; outline:none; font-size:14px;
+    font-family:'Nunito Sans', sans-serif; font-weight:600;
+  }
+  .nl-form input::placeholder{color:rgba(255,255,255,0.6);}
+  .nl-form input:focus{border-color:var(--gold-light);}
+  .nl-form button{
+    background:var(--gold); color:#fff; border:none; padding:13px 24px; border-radius:999px;
+    font-weight:800; cursor:pointer; font-size:13.5px; white-space:nowrap;
+  }
+  .nl-form button:hover{background:var(--gold-light);}
+  .nl-success{margin-top:14px; font-size:13px; font-weight:700; display:none;}
+  .nl-success.show{display:block;}
+
+  footer{margin-top:70px; border-top:1px solid var(--line); padding:30px 0 60px;}
+  .disclaimer{font-size:12px; color:var(--text-lo); max-width:640px; line-height:1.7;}
+  .foot-bottom{display:flex; justify-content:space-between; align-items:center; margin-top:22px; font-size:12px; color:var(--text-lo); font-weight:600;}
+
+  @media (max-width:720px){
+    .article-header h1{font-size:28px;}
+    .post-banner{height:150px;}
+    .article-body{font-size:15.5px;}
+    .bottom-line{padding:22px 20px;}
+    .nl-form{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="nav">
+    <div class="wordmark">Base<span>line</span></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tdee-calculator.html">TDEE Calculator</a>
+      <a href="product-swaps.html">Product Swaps</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="blog.html" class="active">Blog</a>
+    </div>
+  </div>
+
+  <a href="blog.html" class="back-link">← Back to Blog</a>
+
+  <div class="article-header">
+    <div class="eyebrow">Myth-Busting</div>
+    <h1>Do You Really Need a Detox?</h1>
+    <div class="article-meta">4 min read · By Ana</div>
+  </div>
+
+  <div class="post-banner"><div class="orb">🍋</div></div>
+
+  <div class="article-body">
+    <p>Your liver processes roughly 1.5 liters of blood every minute. Your kidneys filter your entire blood volume about 40 times a day. That's not marketing copy — it's what those organs already do, continuously, for free, whether or not you drink a green juice this morning.</p>
+
+    <h2>What "Detoxification" Actually Means</h2>
+    <p>Real detoxification is a two-phase biochemical process that happens in your liver around the clock. Phase I uses a family of enzymes (cytochrome P450s, if you want the name) to chemically modify fat-soluble compounds — including alcohol, medications, and metabolic byproducts. Phase II attaches those modified compounds to other molecules to make them water-soluble, so your kidneys and digestive system can actually excrete them. Your kidneys, meanwhile, are continuously filtering your blood to remove waste products and excess substances into urine.</p>
+    <p>This is a 24-hour-a-day, 7-day-a-week process. It doesn't pause and wait for a juice cleanse to "kickstart" it, because it never stopped running in the first place.</p>
+
+    <h2>What a "Detox" Product Actually Does</h2>
+    <p>Most detox teas and cleanses don't do anything to your liver or kidneys at all. Their actual, measurable mechanism is usually much simpler: they contain a stimulant laxative (senna is the most common one) or a diuretic, which produces rapid water and stool loss. That shows up on the scale as "weight loss," but it isn't fat — it returns within a few days of stopping.</p>
+
+    <div class="callout">
+      <strong>Worth knowing:</strong> Regular use of senna-based detox teas has been linked in case reports to laxative dependency and electrolyte imbalances, since your gut can become reliant on the stimulant to function normally. The "results" people chase from these products come with a real cost that rarely makes it onto the label.
+    </div>
+
+    <h2>What's Actually Happening When You Feel "Toxic"</h2>
+    <p>The symptoms people attribute to a toxin buildup — bloating, fatigue, brain fog — almost always trace back to identifiable, unglamorous causes: poor sleep, dehydration, low fiber intake, too much alcohol or added sugar, or ongoing stress. Address those directly — actual sleep, actual water, actual fiber, less alcohol — and the symptoms tend to resolve, because that's what was driving them the whole time. No detox tea can outperform a fix aimed at the real cause.</p>
+
+    <h2>The One Exception</h2>
+    <p>None of this is an argument against taking a break from alcohol or ultra-processed food for a week or a month. That's a genuinely reasonable thing to do, and plenty of people feel better for it. Just call it what it is — a reset, a break, a deliberate choice about what you're eating — not a "detox," because your organs were never waiting on your permission to start.</p>
+
+    <div class="bottom-line">
+      <div class="label">Bottom Line</div>
+      <p>Skip the tea, keep the money, and go to bed on time. Your liver and kidneys already have this covered — they just need you to stop asking them to work around a hangover, a bag of chips, and five hours of sleep.</p>
+    </div>
+  </div>
+
+  <div class="article-footer-nav">
+    <a href="blog.html" class="back-link">← Back to Blog</a>
+  </div>
+
+  <div class="newsletter">
+    <h3>Want More Health &amp; Wellness Tips?</h3>
+    <p>Sign up for our newsletter. We send 1 email a week of stuff you truly want to know.</p>
+    <div class="nl-form">
+      <input type="email" id="nl-email" placeholder="you@email.com">
+      <button id="nl-btn">Sign Up</button>
+    </div>
+    <div class="nl-success" id="nl-success">You're in! Check your inbox 🌿</div>
+  </div>
+
+  <footer>
+    <div class="disclaimer">
+      Baseline provides general health and wellness information for educational purposes only. It is not medical advice and doesn't account for individual health conditions. Speak with a physician or registered dietitian before making significant changes to your diet. Baseline may earn a commission on products linked from this site.
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Baseline</div>
+      <div>Affiliate Disclosure</div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+  document.getElementById('nl-btn').addEventListener('click', () => {
+    const email = document.getElementById('nl-email').value.trim();
+    if(!isValidEmail(email)){ alert('Enter a valid email to subscribe.'); return; }
+    document.getElementById('nl-success').classList.add('show');
+    document.getElementById('nl-email').value = '';
+  });
+</script>
+
+</body>
+</html>
