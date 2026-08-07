@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Much Protein Do You Actually Need? — Baseline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF5E8; --cream-2:#F5EDDB; --card:#FFFDF6;
+    --olive:#5E6B47; --olive-dark:#4A5538; --olive-light:#8C9A6E;
+    --gold:#C79A3C; --gold-light:#E3C077; --gold-dark:#A87F2A;
+    --text-hi:#3C3527; --text-lo:#8A8069; --text-mid:#5C5442;
+    --line:rgba(94,107,71,0.18); --shadow:0 10px 30px rgba(94,71,20,0.08);
+    --radius:22px; --radius-sm:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--cream); color:var(--text-mid); font-family:'Nunito Sans', sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Fraunces', serif; color:var(--text-hi); font-weight:500; margin:0;}
+  ::selection{background:var(--gold-light); color:var(--text-hi);}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:30px 0; flex-wrap:wrap; gap:14px;}
+  .wordmark{font-family:'Fraunces', serif; font-size:22px; letter-spacing:0.03em; color:var(--text-hi); font-weight:500;}
+  .wordmark span{color:var(--gold-dark); font-style:italic;}
+  .nav-links{display:flex; align-items:center; gap:30px; flex-wrap:wrap;}
+  .nav-links a{
+    font-family:'Nunito Sans', sans-serif; font-size:13.5px; font-weight:700;
+    color:var(--text-mid); text-decoration:none; padding-bottom:4px;
+    border-bottom:2px solid transparent; transition:color .15s ease, border-color .15s ease;
+  }
+  .nav-links a:hover{color:var(--olive);}
+  .nav-links a.active{color:var(--gold-dark); border-color:var(--gold);}
+  @media (max-width:640px){
+    .nav-links{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:18px;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-links a{white-space:nowrap; flex-shrink:0;}
+  }
+
+  .back-link{
+    display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:13px;
+    font-weight:800; color:var(--gold-dark); text-decoration:none;
+  }
+  .back-link:hover{color:var(--olive);}
+
+  .article-header{text-align:center; padding:36px 0 0; max-width:680px; margin:0 auto;}
+  .eyebrow{font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); font-weight:700; margin-bottom:16px;}
+  .article-header h1{font-size:38px; line-height:1.22;}
+  .article-meta{font-size:13px; color:var(--text-lo); font-weight:600; margin-top:16px;}
+
+  .post-banner{
+    position:relative; height:200px; border-radius:var(--radius); overflow:hidden;
+    margin-top:36px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,#CE8858,#8C4A2A);
+  }
+  .post-banner::before{
+    content:""; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,0.16) 1.5px, transparent 1.5px);
+    background-size:16px 16px; opacity:.5;
+  }
+  .post-banner .orb{
+    position:relative; width:110px; height:110px; border-radius:50%;
+    background:rgba(255,255,255,0.16);
+    display:flex; align-items:center; justify-content:center; font-size:50px;
+    box-shadow:0 10px 26px rgba(0,0,0,0.14), inset 0 0 0 1px rgba(255,255,255,0.25);
+  }
+
+  .article-body{max-width:680px; margin:40px auto 0; font-size:16.5px; line-height:1.85; color:var(--text-mid);}
+  .article-body h2{font-size:24px; margin-top:46px; margin-bottom:14px;}
+  .article-body h3{font-size:19px; margin-top:34px; margin-bottom:10px;}
+  .article-body p{margin:0 0 18px;}
+  .article-body ul, .article-body ol{margin:0 0 18px; padding-left:22px;}
+  .article-body li{margin-bottom:8px;}
+  .article-body strong{color:var(--text-hi);}
+
+  .callout{
+    background:var(--cream-2); border-left:4px solid var(--gold); border-radius:var(--radius-sm);
+    padding:20px 24px; margin:30px 0; font-size:15px; color:var(--text-mid);
+  }
+  .callout strong{color:var(--text-hi);}
+
+  .bottom-line{
+    background:var(--card); border:1.5px solid var(--line); border-radius:var(--radius);
+    padding:28px 30px; margin-top:46px; box-shadow:var(--shadow); max-width:680px; margin-left:auto; margin-right:auto;
+  }
+  .bottom-line .label{
+    font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-dark);
+    font-weight:800; margin-bottom:10px;
+  }
+  .bottom-line p{margin:0; font-size:15px; color:var(--text-mid); line-height:1.7;}
+
+  .article-footer-nav{max-width:680px; margin:44px auto 0; text-align:center; padding-bottom:10px;}
+
+  .newsletter{
+    margin-top:60px; background:var(--olive); border-radius:var(--radius); padding:44px;
+    text-align:center; color:#fff;
+  }
+  .newsletter h3{color:#fff; font-size:25px;}
+  .newsletter p{color:rgba(255,255,255,0.8); font-size:13.5px; margin-top:8px; max-width:400px; margin-left:auto; margin-right:auto;}
+  .nl-form{display:flex; gap:10px; max-width:420px; margin:22px auto 0;}
+  .nl-form input{
+    flex:1; background:rgba(255,255,255,0.14); border:1.5px solid rgba(255,255,255,0.3);
+    color:#fff; padding:13px 18px; border-radius:999px; outline:none; font-size:14px;
+    font-family:'Nunito Sans', sans-serif; font-weight:600;
+  }
+  .nl-form input::placeholder{color:rgba(255,255,255,0.6);}
+  .nl-form input:focus{border-color:var(--gold-light);}
+  .nl-form button{
+    background:var(--gold); color:#fff; border:none; padding:13px 24px; border-radius:999px;
+    font-weight:800; cursor:pointer; font-size:13.5px; white-space:nowrap;
+  }
+  .nl-form button:hover{background:var(--gold-light);}
+  .nl-success{margin-top:14px; font-size:13px; font-weight:700; display:none;}
+  .nl-success.show{display:block;}
+
+  footer{margin-top:70px; border-top:1px solid var(--line); padding:30px 0 60px;}
+  .disclaimer{font-size:12px; color:var(--text-lo); max-width:640px; line-height:1.7;}
+  .foot-bottom{display:flex; justify-content:space-between; align-items:center; margin-top:22px; font-size:12px; color:var(--text-lo); font-weight:600;}
+
+  @media (max-width:720px){
+    .article-header h1{font-size:28px;}
+    .post-banner{height:150px;}
+    .article-body{font-size:15.5px;}
+    .bottom-line{padding:22px 20px;}
+    .nl-form{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="nav">
+    <div class="wordmark">Base<span>line</span></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tdee-calculator.html">TDEE Calculator</a>
+      <a href="product-swaps.html">Product Swaps</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="blog.html" class="active">Blog</a>
+    </div>
+  </div>
+
+  <a href="blog.html" class="back-link">← Back to Blog</a>
+
+  <div class="article-header">
+    <div class="eyebrow">Training</div>
+    <h1>How Much Protein Do You Actually Need?</h1>
+    <div class="article-meta">4 min read</div>
+  </div>
+
+  <div class="post-banner"><div class="orb">🥩</div></div>
+
+  <div class="article-body">
+    <p>The number most people know — 0.8 grams of protein per kilogram of bodyweight — is the RDA, and it gets treated like a target. It isn't one. It's a floor, established mostly through nitrogen balance studies designed to find the minimum intake that prevents a sedentary adult from slowly losing muscle mass. It was never meant to represent an optimal intake for someone who lifts weights, plays a sport, or is trying to change their body composition. Using it as a goal is like using the speed limit for reversing out of your driveway as your goal for how fast to drive on the highway.</p>
+
+    <h2>What the Research Actually Supports</h2>
+    <p>For people doing regular resistance training, the research consistently lands in a higher range: roughly <strong>1.6 to 2.2 grams per kilogram</strong> of bodyweight per day for maximizing muscle protein synthesis. Meta-analyses pooling dozens of trials find that intake above that range doesn't produce meaningfully better results for most people — more isn't harmful, it's just not doing much extra work once you're already in that zone.</p>
+
+    <div class="callout">
+      <strong>Quick math:</strong> Bodyweight in pounds ÷ 2.2 = bodyweight in kilograms. Multiply that by 1.6–2.2 to get your daily protein target range in grams. A 160 lb (73 kg) person training regularly lands around 117–160g per day.
+    </div>
+
+    <h2>It's Not Just About Muscle</h2>
+    <p>Protein also has the highest thermic effect of any macronutrient — your body burns more calories digesting and processing it than it does for carbs or fat — and it's consistently the most satiating macro in appetite research. Higher-protein diets in controlled trials show better appetite regulation and, importantly, better preservation of lean mass during a calorie deficit, which is the difference between losing fat and just losing weight.</p>
+    <p>This matters even more for older adults. Age-related muscle loss, or sarcopenia, is a real and significant driver of frailty and loss of independence, and the RDA is especially inadequate for this group. Research on healthy older adults generally supports intakes closer to 1.2g/kg or higher to help counter it.</p>
+
+    <h2>The Kidney Myth</h2>
+    <p>The concern that high protein intake damages your kidneys traces back to studies on people who already had existing kidney disease, where reducing protein intake is a legitimate part of clinical management. That finding does not transfer to healthy people. Multiple studies looking at higher protein intakes in healthy adults with normal kidney function show no adverse effect on kidney markers over time. If you have diagnosed kidney disease, this doesn't apply to you — talk to your doctor about your specific numbers. If you don't, your kidneys are built to handle the workload.</p>
+
+    <h2>How to Actually Hit Your Number</h2>
+    <p>Total daily intake matters most, but distribution helps. Aim for roughly 25–40g of protein per meal, spread across three to four meals — that range comfortably clears the "leucine threshold" (about 2.5–3g of the amino acid leucine) that appears to maximize the muscle-building signal per meal, rather than trying to cram it all into one sitting.</p>
+
+    <div class="bottom-line">
+      <div class="label">Bottom Line</div>
+      <p>The RDA tells you the minimum to avoid getting sick. It was never a performance or body-composition target. Most people who think they're "getting enough protein" are hitting the floor, not the range that actually helps — and the fix isn't complicated, it's just eating more of it, consistently, at every meal.</p>
+    </div>
+  </div>
+
+  <div class="article-footer-nav">
+    <a href="blog.html" class="back-link">← Back to Blog</a>
+  </div>
+
+  <div class="newsletter">
+    <h3>Want More Health &amp; Wellness Tips?</h3>
+    <p>Sign up for our newsletter. We send 1 email a week of stuff you truly want to know.</p>
+    <div class="nl-form">
+      <input type="email" id="nl-email" placeholder="you@email.com">
+      <button id="nl-btn">Sign Up</button>
+    </div>
+    <div class="nl-success" id="nl-success">You're in! Check your inbox 🌿</div>
+  </div>
+
+  <footer>
+    <div class="disclaimer">
+      Baseline provides general health and wellness information for educational purposes only. It is not medical advice and doesn't account for individual health conditions. Speak with a physician or registered dietitian before making significant changes to your diet. Baseline may earn a commission on products linked from this site.
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Baseline</div>
+      <div>Affiliate Disclosure</div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxMuRx39RIYGQGQG2X711qJFymwJFYoMbycoUc13k_BI47XtesHTRrmLj9p4-muetHg3Q/exec';
+  function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+  function sendToSheet(email, source){
+    if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.startsWith('PASTE_')) return;
+    fetch(SHEET_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ email, source, page: location.pathname })
+    }).catch(() => {});
+  }
+  document.getElementById('nl-btn').addEventListener('click', () => {
+    const email = document.getElementById('nl-email').value.trim();
+    if(!isValidEmail(email)){ alert('Enter a valid email to subscribe.'); return; }
+    sendToSheet(email, 'newsletter');
+    document.getElementById('nl-success').classList.add('show');
+    document.getElementById('nl-email').value = '';
+  });
+</script>
+
+</body>
+</html>

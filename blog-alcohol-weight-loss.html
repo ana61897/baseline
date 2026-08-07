@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Alcohol–Weight Loss Connection Nobody's Being Honest About — Baseline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF5E8; --cream-2:#F5EDDB; --card:#FFFDF6;
+    --olive:#5E6B47; --olive-dark:#4A5538; --olive-light:#8C9A6E;
+    --gold:#C79A3C; --gold-light:#E3C077; --gold-dark:#A87F2A;
+    --text-hi:#3C3527; --text-lo:#8A8069; --text-mid:#5C5442;
+    --line:rgba(94,107,71,0.18); --shadow:0 10px 30px rgba(94,71,20,0.08);
+    --radius:22px; --radius-sm:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--cream); color:var(--text-mid); font-family:'Nunito Sans', sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Fraunces', serif; color:var(--text-hi); font-weight:500; margin:0;}
+  ::selection{background:var(--gold-light); color:var(--text-hi);}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:30px 0; flex-wrap:wrap; gap:14px;}
+  .wordmark{font-family:'Fraunces', serif; font-size:22px; letter-spacing:0.03em; color:var(--text-hi); font-weight:500;}
+  .wordmark span{color:var(--gold-dark); font-style:italic;}
+  .nav-links{display:flex; align-items:center; gap:30px; flex-wrap:wrap;}
+  .nav-links a{
+    font-family:'Nunito Sans', sans-serif; font-size:13.5px; font-weight:700;
+    color:var(--text-mid); text-decoration:none; padding-bottom:4px;
+    border-bottom:2px solid transparent; transition:color .15s ease, border-color .15s ease;
+  }
+  .nav-links a:hover{color:var(--olive);}
+  .nav-links a.active{color:var(--gold-dark); border-color:var(--gold);}
+  @media (max-width:640px){
+    .nav-links{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:18px;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-links a{white-space:nowrap; flex-shrink:0;}
+  }
+
+  .back-link{
+    display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:13px;
+    font-weight:800; color:var(--gold-dark); text-decoration:none;
+  }
+  .back-link:hover{color:var(--olive);}
+
+  .article-header{text-align:center; padding:36px 0 0; max-width:680px; margin:0 auto;}
+  .eyebrow{font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); font-weight:700; margin-bottom:16px;}
+  .article-header h1{font-size:38px; line-height:1.22;}
+  .article-meta{font-size:13px; color:var(--text-lo); font-weight:600; margin-top:16px;}
+
+  .post-banner{
+    position:relative; height:200px; border-radius:var(--radius); overflow:hidden;
+    margin-top:36px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,#A9754E,#5E3A24);
+  }
+  .post-banner::before{
+    content:""; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,0.16) 1.5px, transparent 1.5px);
+    background-size:16px 16px; opacity:.5;
+  }
+  .post-banner .orb{
+    position:relative; width:110px; height:110px; border-radius:50%;
+    background:rgba(255,255,255,0.16);
+    display:flex; align-items:center; justify-content:center; font-size:50px;
+    box-shadow:0 10px 26px rgba(0,0,0,0.14), inset 0 0 0 1px rgba(255,255,255,0.25);
+  }
+
+  .article-body{max-width:680px; margin:40px auto 0; font-size:16.5px; line-height:1.85; color:var(--text-mid);}
+  .article-body h2{font-size:24px; margin-top:46px; margin-bottom:14px;}
+  .article-body h3{font-size:19px; margin-top:34px; margin-bottom:10px;}
+  .article-body p{margin:0 0 18px;}
+  .article-body ul, .article-body ol{margin:0 0 18px; padding-left:22px;}
+  .article-body li{margin-bottom:8px;}
+  .article-body strong{color:var(--text-hi);}
+
+  .callout{
+    background:var(--cream-2); border-left:4px solid var(--gold); border-radius:var(--radius-sm);
+    padding:20px 24px; margin:30px 0; font-size:15px; color:var(--text-mid);
+  }
+  .callout strong{color:var(--text-hi);}
+
+  .product-rec{
+    background:var(--card); border:1.5px solid var(--gold); border-radius:var(--radius);
+    padding:32px; margin:34px 0; box-shadow:var(--shadow); text-align:center; max-width:680px; margin-left:auto; margin-right:auto;
+  }
+  .product-rec .label{
+    font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-dark);
+    font-weight:800; margin-bottom:12px;
+  }
+  .product-rec h3{font-size:22px; margin-bottom:12px;}
+  .product-rec p{font-size:14.5px; color:var(--text-mid); margin-bottom:22px; text-align:left;}
+  .product-rec p:last-of-type{margin-bottom:0;}
+  .btn-primary{
+    padding:15px 30px; border-radius:999px; font-weight:800; font-size:14.5px;
+    text-decoration:none; display:inline-block; transition:all .15s ease;
+    background:var(--olive); color:#fff; margin-top:6px;
+  }
+  .btn-primary:hover{background:var(--olive-dark);}
+
+  .legal-note{
+    font-size:12.5px; color:var(--text-lo); background:var(--cream-2); border-radius:var(--radius-sm);
+    padding:16px 20px; margin:30px auto 0; max-width:680px; line-height:1.7;
+  }
+
+  .bottom-line{
+    background:var(--card); border:1.5px solid var(--line); border-radius:var(--radius);
+    padding:28px 30px; margin-top:46px; box-shadow:var(--shadow); max-width:680px; margin-left:auto; margin-right:auto;
+  }
+  .bottom-line .label{
+    font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-dark);
+    font-weight:800; margin-bottom:10px;
+  }
+  .bottom-line p{margin:0; font-size:15px; color:var(--text-mid); line-height:1.7;}
+
+  .article-footer-nav{max-width:680px; margin:44px auto 0; text-align:center; padding-bottom:10px;}
+
+  .newsletter{
+    margin-top:60px; background:var(--olive); border-radius:var(--radius); padding:44px;
+    text-align:center; color:#fff;
+  }
+  .newsletter h3{color:#fff; font-size:25px;}
+  .newsletter p{color:rgba(255,255,255,0.8); font-size:13.5px; margin-top:8px; max-width:400px; margin-left:auto; margin-right:auto;}
+  .nl-form{display:flex; gap:10px; max-width:420px; margin:22px auto 0;}
+  .nl-form input{
+    flex:1; background:rgba(255,255,255,0.14); border:1.5px solid rgba(255,255,255,0.3);
+    color:#fff; padding:13px 18px; border-radius:999px; outline:none; font-size:14px;
+    font-family:'Nunito Sans', sans-serif; font-weight:600;
+  }
+  .nl-form input::placeholder{color:rgba(255,255,255,0.6);}
+  .nl-form input:focus{border-color:var(--gold-light);}
+  .nl-form button{
+    background:var(--gold); color:#fff; border:none; padding:13px 24px; border-radius:999px;
+    font-weight:800; cursor:pointer; font-size:13.5px; white-space:nowrap;
+  }
+  .nl-form button:hover{background:var(--gold-light);}
+  .nl-success{margin-top:14px; font-size:13px; font-weight:700; display:none;}
+  .nl-success.show{display:block;}
+
+  footer{margin-top:70px; border-top:1px solid var(--line); padding:30px 0 60px;}
+  .disclaimer{font-size:12px; color:var(--text-lo); max-width:640px; line-height:1.7;}
+  .foot-bottom{display:flex; justify-content:space-between; align-items:center; margin-top:22px; font-size:12px; color:var(--text-lo); font-weight:600;}
+
+  @media (max-width:720px){
+    .article-header h1{font-size:28px;}
+    .post-banner{height:150px;}
+    .article-body{font-size:15.5px;}
+    .bottom-line, .product-rec{padding:22px 20px;}
+    .nl-form{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="nav">
+    <div class="wordmark">Base<span>line</span></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tdee-calculator.html">TDEE Calculator</a>
+      <a href="product-swaps.html">Product Swaps</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="blog.html" class="active">Blog</a>
+    </div>
+  </div>
+
+  <a href="blog.html" class="back-link">← Back to Blog</a>
+
+  <div class="article-header">
+    <div class="eyebrow">Habits</div>
+    <h1>The Alcohol–Weight Loss Connection Nobody's Being Honest About</h1>
+    <div class="article-meta">6 min read</div>
+  </div>
+
+  <div class="post-banner"><div class="orb">🍷</div></div>
+
+  <div class="article-body">
+    <p>Alcohol is one of the biggest levers in weight management that almost nobody actually pulls. People will meticulously track their protein and agonize over whether oatmeal is "clean," then not think twice about the 600-plus calories sitting in three drinks on a Friday night. It's not a willpower problem. It's that alcohol's actual effect on your body doesn't get talked about honestly, so it's easy to underrate.</p>
+
+    <h2>Alcohol Is Calorically Dense — and Nutritionally Empty</h2>
+    <p>Alcohol has 7 calories per gram — almost as dense as fat at 9 calories per gram, and nearly double carbs or protein at 4. Unlike those macros, it comes with no protein, no fiber, and nothing that makes you feel full. A vodka soda and a chicken breast can carry similar calorie counts; only one of them does anything for your appetite, your muscle, or your energy for the next four hours.</p>
+
+    <h2>Your Body Burns Alcohol First</h2>
+    <p>Here's the part that rarely gets explained: your liver treats ethanol as a priority toxin, not just another fuel source. When alcohol is in your system, your body shifts to metabolizing it first, ahead of the fat you ate that night — which means fat oxidation effectively pauses until the alcohol clears. It's not that a drink makes fat loss impossible. It's that your body puts fat-burning on hold to deal with the alcohol first, which matters more the more consistently it happens.</p>
+
+    <h2>The Disinhibition Problem</h2>
+    <p>Alcohol also lowers inhibition around food choices — the same effect that makes 2am pizza sound reasonable is a well-documented, measurable increase in same-night calorie intake after drinking, with a specific pull toward salty, fatty food. On top of that, even one or two drinks measurably disrupts REM sleep, and poor sleep the next day is linked to higher ghrelin (the hormone that makes you hungry) and lower leptin (the one that tells you you're full). The hangover isn't just a headache — it's a full day of your appetite signals working against you.</p>
+
+    <div class="callout">
+      <strong>None of this means never drinking.</strong> Total abstinence isn't necessary for most people's goals. What actually matters is total frequency and volume over time, not any single night — the same way one indulgent meal doesn't undo a week of eating well.
+    </div>
+
+    <h2>What Actually Helps If You Want the Social Part Without the Setback</h2>
+    <p>If the goal is trimming back without giving up the social ritual of "having a drink," non-alcoholic swaps solve the calorie and metabolic-priority problems, but they don't always solve for the part people actually miss — the loosening up, the different texture to a night out. That's the gap something like <strong>Buzz Drops</strong> from Redwood Reserves is built for: a nano-emulsified cannabis extract that mixes into any drink, giving you a social, relaxed effect without alcohol's calories, its hijacking of fat metabolism, or the next-day sleep and appetite disruption.</p>
+
+    <div class="product-rec">
+      <div class="label">Worth Trying</div>
+      <h3>Buzz Drops — Non-Alcoholic Mocktail Drops</h3>
+      <p>Mixes into sparkling water, a mocktail, or any of our <a href="recipes.html">mocktail recipes</a> for a social, low-calorie alternative to alcohol. Nano-emulsion technology means it kicks in faster than a typical edible, so it's easier to gauge before you add more.</p>
+      <p><strong>Start low and slow:</strong> begin with 0.25ml per drink, and don't exceed 1ml within an hour — effects build gradually, and it's much easier to add a little more than to walk back too much.</p>
+      <a href="https://redwoodreserves.com/products/buzz-drops-non-alcoholic-mocktail-recipe-drops?srsltid=AfmBOors439DXcjXr1LK3O_qnP2M7FIjkuARMxFD83HXjeQOLVxYaRXE" class="btn-primary" target="_blank" rel="noopener">Shop Buzz Drops →</a>
+    </div>
+
+    <div class="legal-note">
+      Buzz Drops contain cannabis extract and are intended for adults 21 and older. Cannabis products are not legal everywhere — check your state or country's laws before ordering. Don't drive or operate machinery after use, avoid combining with alcohol or medications without talking to a doctor first, and keep in mind individual sensitivity to cannabis varies a lot from person to person.
+    </div>
+
+    <div class="bottom-line">
+      <div class="label">Bottom Line</div>
+      <p>Alcohol's real cost isn't just the calories in the glass — it's the fat-burning pause, the looser food choices, and the worse sleep that follows. You don't have to quit drinking to make progress. Cutting back on frequency, and having a lower-calorie alternative on hand for the nights you want the social piece without the setback, is usually enough to make the difference show up on the scale.</p>
+    </div>
+  </div>
+
+  <div class="article-footer-nav">
+    <a href="blog.html" class="back-link">← Back to Blog</a>
+  </div>
+
+  <div class="newsletter">
+    <h3>Want More Health &amp; Wellness Tips?</h3>
+    <p>Sign up for our newsletter. We send 1 email a week of stuff you truly want to know.</p>
+    <div class="nl-form">
+      <input type="email" id="nl-email" placeholder="you@email.com">
+      <button id="nl-btn">Sign Up</button>
+    </div>
+    <div class="nl-success" id="nl-success">You're in! Check your inbox 🌿</div>
+  </div>
+
+  <footer>
+    <div class="disclaimer">
+      Baseline provides general health and wellness information for educational purposes only. It is not medical advice and doesn't account for individual health conditions. Speak with a physician or registered dietitian before making significant changes to your diet. Baseline may earn a commission on products linked from this site.
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Baseline</div>
+      <div>Affiliate Disclosure</div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxMuRx39RIYGQGQG2X711qJFymwJFYoMbycoUc13k_BI47XtesHTRrmLj9p4-muetHg3Q/exec';
+  function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+  function sendToSheet(email, source){
+    if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.startsWith('PASTE_')) return;
+    fetch(SHEET_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ email, source, page: location.pathname })
+    }).catch(() => {});
+  }
+  document.getElementById('nl-btn').addEventListener('click', () => {
+    const email = document.getElementById('nl-email').value.trim();
+    if(!isValidEmail(email)){ alert('Enter a valid email to subscribe.'); return; }
+    sendToSheet(email, 'newsletter');
+    document.getElementById('nl-success').classList.add('show');
+    document.getElementById('nl-email').value = '';
+  });
+</script>
+
+</body>
+</html>
