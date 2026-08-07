@@ -747,7 +747,7 @@
   .swap-carousel-btn:hover{border-color:var(--gold); color:var(--gold-dark);}
 
   .swap-carousel-track{
-    display:flex; align-items:flex-start; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory;
+    display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory;
     padding:4px 4px 10px; scrollbar-width:none;
   }
   .swap-carousel-track::-webkit-scrollbar{display:none;}
@@ -759,7 +759,7 @@
   }
 
   .swap-slide.intro{
-    width:290px; padding:32px 26px; text-align:center; align-items:center; justify-content:center;
+    width:300px; padding:32px 26px; text-align:center; align-items:center; justify-content:center;
   }
   .swap-slide.intro .swap-promo-icon{
     width:52px; height:52px; border-radius:50%; background:var(--cream-2);
@@ -776,19 +776,21 @@
   }
   .swap-promo-btn:hover{background:var(--olive-dark);}
 
-  .swap-slide.product{width:270px; padding:26px 22px; align-items:center; text-align:center;}
+  .swap-slide.product{
+    width:300px; padding:26px 20px; align-items:center; justify-content:center; text-align:center;
+  }
   .mini-swap-emoji{
     width:56px; height:56px; border-radius:50%; background:var(--cream-2);
     display:flex; align-items:center; justify-content:center; font-size:26px;
     margin-bottom:16px;
   }
-  .mini-swap-flow{display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap;}
+  .mini-swap-flow{display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:nowrap;}
   .mini-swap-out, .mini-swap-in{
-    font-size:12.5px; font-weight:700; padding:7px 13px; border-radius:999px;
+    font-size:11px; font-weight:700; padding:6px 10px; border-radius:999px; white-space:nowrap;
   }
   .mini-swap-out{background:var(--cream-2); color:var(--text-lo); text-decoration:line-through;}
   .mini-swap-in{background:var(--olive); color:#fff;}
-  .mini-swap-arrow{color:var(--gold-dark); font-size:15px;}
+  .mini-swap-arrow{color:var(--gold-dark); font-size:14px; flex-shrink:0;}
   .mini-swap-desc{font-size:13px; color:var(--text-mid); margin-top:14px; line-height:1.6;}
   .mini-swap-btn{
     display:inline-block; margin-top:16px; background:var(--gold); color:#fff;
@@ -1093,8 +1095,10 @@
       </div>
     </div>
 
-    <!-- EDUCATIONAL CARDS -->
-    <div class="edu-section">
+  </div>
+
+  <!-- EDUCATIONAL CARDS -->
+  <div class="edu-section">
       <div class="edu-heading">
         <h2>A Few Things Worth Knowing</h2>
         <p>No fads or fear-mongering, just what the research actually says.</p>
@@ -1179,7 +1183,7 @@
           <div class="mini-swap-flow">
             <span class="mini-swap-out">Soda</span>
             <span class="mini-swap-arrow">→</span>
-            <span class="mini-swap-in">Recess Adaptogen Water</span>
+            <span class="mini-swap-in">Adaptogen Water</span>
           </div>
           <p class="mini-swap-desc">Keeps the fizz and the ritual, drops the sugar — just 20 calories a can.</p>
           <a href="https://amzn.to/4z3N15a" class="mini-swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
@@ -1190,7 +1194,7 @@
           <div class="mini-swap-flow">
             <span class="mini-swap-out">Sugar</span>
             <span class="mini-swap-arrow">→</span>
-            <span class="mini-swap-in">Monkfruit (In The Raw)</span>
+            <span class="mini-swap-in">Monkfruit</span>
           </div>
           <p class="mini-swap-desc">Zero calories, no blood sugar spike, and no bitter aftertaste to work around.</p>
           <a href="https://amzn.to/3RE7Q6u" class="mini-swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
@@ -1231,8 +1235,6 @@
 
       </div>
     </div>
-
-  </div>
 
   <footer>
     <div class="disclaimer">
@@ -1599,7 +1601,7 @@
   });
 
   const swapTrack = document.getElementById('swap-carousel-track');
-  const swapScrollAmount = 300;
+  const swapScrollAmount = 318;
   document.getElementById('swap-carousel-prev').addEventListener('click', () => {
     swapTrack.scrollBy({ left: -swapScrollAmount, behavior: 'smooth' });
   });
