@@ -396,6 +396,62 @@
     color:#fff;
   }
 
+  /* PACE SELECTOR */
+  .pace-wrap{margin-top:32px; text-align:center;}
+  .pace-wrap > .g-label{
+    font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--olive); font-weight:700; margin-bottom:16px; display:block;
+  }
+  .pace-options{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;
+    max-width:560px; margin:0 auto;
+  }
+  .pace-card{
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:var(--radius-sm);
+    padding:18px 12px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .pace-card:hover{border-color:var(--gold-light);}
+  .pace-card.active{
+    border-color:var(--gold);
+    background:#fff;
+    box-shadow:0 4px 14px rgba(199,154,60,0.18);
+  }
+  .pace-card .pace-name{font-size:13px; font-weight:800; color:var(--text-mid);}
+  .pace-card.active .pace-name{color:var(--gold-dark);}
+  .pace-card .pace-cals{
+    font-family:'Fraunces', serif; font-size:22px; font-weight:600;
+    color:var(--text-hi); margin-top:8px;
+  }
+  .pace-card .pace-cals-unit{
+    display:block; font-size:10.5px; color:var(--text-lo); font-weight:600;
+    font-family:'Nunito Sans', sans-serif; margin-top:2px;
+  }
+  .pace-card .pace-warning{
+    display:none; margin-top:9px; font-size:10.5px; font-weight:800;
+    color:#B8562E; background:rgba(184,86,46,0.1);
+    padding:4px 9px; border-radius:999px;
+  }
+  .pace-card.unsafe .pace-warning{display:inline-block;}
+  .pace-safety-note{
+    margin-top:18px;
+    background:rgba(184,86,46,0.08);
+    border:1px solid rgba(184,86,46,0.25);
+    border-radius:var(--radius-sm);
+    padding:16px 20px;
+    font-size:13px;
+    color:#8A4226;
+    line-height:1.65;
+    text-align:left;
+    max-width:560px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .pace-safety-note strong{color:#B8562E;}
+
   /* MACROS GATE */
   .gate-wrap{
     position:relative;
@@ -454,7 +510,6 @@
     font-size:19px; flex-shrink:0;
   }
   .macro-card.protein .m-icon{background:rgba(94,107,71,0.14);}
-  .macro-card.carbs .m-icon{background:rgba(199,154,60,0.16);}
   .macro-card.fat .m-icon{background:rgba(140,154,110,0.18);}
   .macro-card.fiber .m-icon{background:rgba(168,127,42,0.14);}
   .macro-card .m-left-text{display:flex; flex-direction:column;}
@@ -465,7 +520,6 @@
   .macro-bar-bg{height:6px; background:var(--cream-2); border-radius:999px; overflow:hidden;}
   .macro-bar-fill{height:100%; width:0%; border-radius:999px; transition:width 1s ease;}
   .macro-card.protein .macro-bar-fill{background:var(--olive);}
-  .macro-card.carbs .macro-bar-fill{background:var(--gold);}
   .macro-card.fat .macro-bar-fill{background:var(--olive-light);}
   .macro-card.fiber .macro-bar-fill{background:var(--gold-dark);}
   .macro-card .m-pct{font-size:11.5px; color:var(--text-lo); margin-top:8px; font-weight:600;}
@@ -647,6 +701,7 @@
 
     .big-number{font-size:48px;}
     .macro-grid, .edu-grid{grid-template-columns:1fr;}
+    .pace-options{grid-template-columns:1fr; max-width:320px;}
     .nl-form{flex-direction:column;}
 
     /* Spectrum: rows stack full width, stay big and readable */
@@ -810,9 +865,17 @@
     <div class="goal-wrap">
       <span class="g-label">What's Your Goal?</span>
       <div class="goal-options">
-        <div class="goal-pill active" data-goal="lose">Losing Weight</div>
-        <div class="goal-pill" data-goal="maintain">Maintaining</div>
+        <div class="goal-pill" data-goal="lose">Losing Weight</div>
+        <div class="goal-pill active" data-goal="maintain">Maintaining</div>
         <div class="goal-pill" data-goal="gain">Building Muscle</div>
+      </div>
+    </div>
+
+    <div class="pace-wrap" id="pace-wrap" style="display:none;">
+      <span class="g-label">Choose Your Pace</span>
+      <div class="pace-options" id="pace-options"></div>
+      <div class="pace-safety-note" id="pace-safety-note" style="display:none;">
+        ⚠️ <strong>This falls below what's generally considered medically safe</strong> — under 1,200 calories a day for women, 1,500 for men. That's not a hard rule for every body, but it's the kind of number you shouldn't be hitting without a doctor or registered dietitian actively supervising you.
       </div>
     </div>
 
@@ -832,20 +895,6 @@
             <div class="m-pct"><span id="protein-pct">0</span>% of calories</div>
           </div>
           <div class="m-sources"><strong>Good Sources</strong>Chicken breast, shrimp, pork tenderloin, lentils, vegetarian meat substitutes</div>
-        </div>
-        <div class="macro-card carbs">
-          <div class="m-left">
-            <div class="m-icon">🍠</div>
-            <div class="m-left-text">
-              <div class="m-name">Carbohydrates</div>
-              <div class="m-grams"><span id="carbs-g">0</span><span> g</span></div>
-            </div>
-          </div>
-          <div class="m-mid">
-            <div class="macro-bar-bg"><div class="macro-bar-fill" id="carbs-bar"></div></div>
-            <div class="m-pct"><span id="carbs-pct">0</span>% of calories</div>
-          </div>
-          <div class="m-sources"><strong>Good Sources</strong>Rice, potatoes, bananas, quinoa, sweet potatoes, pasta</div>
         </div>
         <div class="macro-card fiber">
           <div class="m-left">
@@ -881,7 +930,7 @@
       <div class="gate-overlay" id="gate-overlay">
         <div class="gate-card">
           <h3>Get Your Personalized Macros</h3>
-          <p>Protein, carbs, and fat targets built from your exact numbers and your goal.</p>
+          <p>Protein, fiber, and fat targets built from your exact numbers and your goal.</p>
           <div class="gate-form">
             <input type="email" id="email-input" placeholder="you@email.com">
             <button id="see-macros-btn">See My Macros</button>
@@ -964,9 +1013,16 @@
   let sex = 'male';
   let selectedMult = 1.55;
   let selectedName = 'Moderate';
-  let selectedGoal = 'lose';
+  let selectedGoal = 'maintain';
+  let selectedPaceLb = 0.5;
   let currentTdee = 0;
   let currentWeightKg = 0;
+
+  const paceOptions = [
+    {lb:0.25, label:'0.25 lb/week'},
+    {lb:0.5,  label:'0.5 lb/week'},
+    {lb:1,    label:'1 lb/week'}
+  ];
 
   const activityLevels = [
     {mult:1.2, name:'Sedentary'},
@@ -985,7 +1041,7 @@
   };
 
   const goalConfig = {
-    lose:     {label:'Losing Weight',   calAdj:0.80, proteinPerKg:1.2, fatPct:0.25},
+    lose:     {label:'Losing Weight',   proteinPerKg:1.2, fatPct:0.25},
     maintain: {label:'Maintaining',     calAdj:1.00, proteinPerKg:1.2, fatPct:0.30},
     gain:     {label:'Building Muscle', calAdj:1.10, proteinPerKg:1.6, fatPct:0.25}
   };
@@ -1031,10 +1087,60 @@
       pill.classList.add('active');
       selectedGoal = pill.dataset.goal;
       if(currentTdee > 0){
-        renderMacros();
+        applyGoalUI();
       }
     });
   });
+
+  function dailyDeficitFor(lb){
+    return Math.round(lb * 3500 / 7);
+  }
+
+  function calsForPace(lb){
+    return Math.max(currentTdee - dailyDeficitFor(lb), 0);
+  }
+
+  function safeThreshold(){
+    return sex === 'female' ? 1200 : 1500;
+  }
+
+  function renderPaceOptions(){
+    const threshold = safeThreshold();
+    const container = document.getElementById('pace-options');
+    container.innerHTML = '';
+
+    paceOptions.forEach(p => {
+      const cals = calsForPace(p.lb);
+      const unsafe = cals < threshold;
+      const card = document.createElement('div');
+      card.className = 'pace-card' + (p.lb === selectedPaceLb ? ' active' : '') + (unsafe ? ' unsafe' : '');
+      card.innerHTML = `
+        <div class="pace-name">${p.label}</div>
+        <div class="pace-cals">${cals.toLocaleString()}<span class="pace-cals-unit">calories/day</span></div>
+        <div class="pace-warning">⚠️ Unsafe</div>
+      `;
+      card.addEventListener('click', () => {
+        selectedPaceLb = p.lb;
+        renderPaceOptions();
+        renderMacros();
+      });
+      container.appendChild(card);
+    });
+
+    document.getElementById('pace-safety-note').style.display =
+      calsForPace(selectedPaceLb) < threshold ? 'block' : 'none';
+  }
+
+  function applyGoalUI(){
+    const paceWrap = document.getElementById('pace-wrap');
+    if(selectedGoal === 'lose'){
+      paceWrap.style.display = 'block';
+      renderPaceOptions();
+    } else {
+      paceWrap.style.display = 'none';
+    }
+    renderMacros();
+  }
 
   function calcBMR(weightKg, heightCm, age, sex){
     const base = 10*weightKg + 6.25*heightCm - 5*age;
@@ -1076,7 +1182,7 @@
     currentTdee = selected.tdee;
 
     renderResults(tdees, selected);
-    renderMacros();
+    applyGoalUI();
   });
 
   function renderResults(tdees, selected){
@@ -1131,7 +1237,9 @@
 
   function renderMacros(){
     const cfg = goalConfig[selectedGoal];
-    const targetCals = Math.round(currentTdee * cfg.calAdj);
+    const targetCals = selectedGoal === 'lose'
+      ? calsForPace(selectedPaceLb)
+      : Math.round(currentTdee * cfg.calAdj);
 
     const proteinG = Math.round(currentWeightKg * cfg.proteinPerKg);
     const proteinCals = proteinG * 4;
@@ -1139,27 +1247,20 @@
     const fatCals = Math.round(targetCals * cfg.fatPct);
     const fatG = Math.round(fatCals / 9);
 
-    const carbCals = Math.max(targetCals - proteinCals - fatCals, 0);
-    const carbG = Math.round(carbCals / 4);
-
-    const proteinPct = Math.round((proteinCals/targetCals)*100);
-    const fatPct = Math.round((fatCals/targetCals)*100);
-    const carbPct = Math.max(100 - proteinPct - fatPct, 0);
+    const proteinPct = targetCals > 0 ? Math.round((proteinCals/targetCals)*100) : 0;
+    const fatPct = targetCals > 0 ? Math.round((fatCals/targetCals)*100) : 0;
 
     // General fiber guidance: ~14g per 1,000 calories consumed
     const fiberG = Math.round((targetCals/1000) * 14);
 
     document.getElementById('protein-g').textContent = proteinG;
-    document.getElementById('carbs-g').textContent = carbG;
     document.getElementById('fat-g').textContent = fatG;
     document.getElementById('fiber-g').textContent = fiberG;
     document.getElementById('protein-pct').textContent = proteinPct;
-    document.getElementById('carbs-pct').textContent = carbPct;
     document.getElementById('fat-pct').textContent = fatPct;
 
     setTimeout(() => {
       document.getElementById('protein-bar').style.width = proteinPct + '%';
-      document.getElementById('carbs-bar').style.width = carbPct + '%';
       document.getElementById('fat-bar').style.width = fatPct + '%';
     }, 50);
   }
