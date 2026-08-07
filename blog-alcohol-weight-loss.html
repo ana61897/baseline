@@ -241,7 +241,7 @@
 </div>
 
 <script>
-  const SHEET_WEBHOOK_URL = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+  const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxMuRx39RIYGQGQG2X711qJFymwJFYoMbycoUc13k_BI47XtesHTRrmLj9p4-muetHg3Q/exec';
   function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
   function sendToSheet(email, source){
     if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.startsWith('PASTE_')) return;
