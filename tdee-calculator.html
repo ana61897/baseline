@@ -452,6 +452,92 @@
   }
   .pace-safety-note strong{color:#B8562E;}
 
+  /* GAIN SELECTOR */
+  .gain-wrap{margin-top:32px; text-align:center;}
+  .gain-wrap > .g-label{
+    font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--olive); font-weight:700; margin-bottom:16px;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .info-btn{
+    width:18px; height:18px; border-radius:50%;
+    border:1.5px solid var(--gold-dark); background:transparent; color:var(--gold-dark);
+    font-size:11px; font-weight:800; line-height:1; cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:0; font-family:'Nunito Sans', sans-serif;
+    transition:all .15s ease;
+  }
+  .info-btn:hover{background:var(--gold-dark); color:#fff;}
+
+  .gain-options{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:14px;
+    max-width:460px; margin:0 auto;
+  }
+  .gain-card{
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:var(--radius-sm);
+    padding:22px 18px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .gain-card:hover{border-color:var(--gold-light);}
+  .gain-card.active{
+    border-color:var(--gold);
+    background:#fff;
+    box-shadow:0 4px 14px rgba(199,154,60,0.18);
+  }
+  .gain-card .gain-name{font-size:15px; font-weight:800; color:var(--text-mid);}
+  .gain-card.active .gain-name{color:var(--gold-dark);}
+  .gain-card .gain-desc{font-size:11.5px; color:var(--text-lo); margin-top:4px; font-weight:600;}
+  .gain-card .gain-cals{
+    font-family:'Fraunces', serif; font-size:24px; font-weight:600;
+    color:var(--text-hi); margin-top:12px;
+  }
+  .gain-card .gain-cals-unit{
+    display:block; font-size:10.5px; color:var(--text-lo); font-weight:600;
+    font-family:'Nunito Sans', sans-serif; margin-top:2px;
+  }
+
+  /* INFO MODAL */
+  .modal-backdrop{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(60,53,39,0.45);
+    backdrop-filter:blur(3px);
+    z-index:100;
+    align-items:center; justify-content:center;
+    padding:20px;
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal-card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:0 24px 60px rgba(60,53,39,0.35);
+    padding:34px;
+    max-width:460px;
+    width:100%;
+    position:relative;
+    text-align:left;
+    max-height:85vh;
+    overflow-y:auto;
+  }
+  .modal-close{
+    position:absolute; top:18px; right:18px; width:30px; height:30px; border-radius:50%;
+    border:none; background:var(--cream-2); color:var(--text-mid); font-size:16px;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:background .15s ease;
+  }
+  .modal-close:hover{background:var(--line);}
+  .modal-card h3{font-size:21px; margin-bottom:20px; padding-right:26px;}
+  .modal-section{margin-bottom:20px;}
+  .modal-section:last-child{margin-bottom:0;}
+  .modal-section-label{
+    font-size:11px; font-weight:800; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--gold-dark); margin-bottom:6px;
+  }
+  .modal-section p{font-size:14px; color:var(--text-mid); line-height:1.65; margin:0;}
+
   /* MACROS GATE */
   .gate-wrap{
     position:relative;
@@ -702,6 +788,8 @@
     .big-number{font-size:48px;}
     .macro-grid, .edu-grid{grid-template-columns:1fr;}
     .pace-options{grid-template-columns:1fr; max-width:320px;}
+    .gain-options{grid-template-columns:1fr; max-width:280px;}
+    .modal-card{padding:26px 22px;}
     .nl-form{flex-direction:column;}
 
     /* Spectrum: rows stack full width, stay big and readable */
@@ -879,6 +967,29 @@
       </div>
     </div>
 
+    <div class="gain-wrap" id="gain-wrap" style="display:none;">
+      <span class="g-label">
+        Choose Your Approach
+        <button type="button" class="info-btn" id="gain-info-btn" aria-label="What's the difference between Recomp and Bulk?">?</button>
+      </span>
+      <div class="gain-options" id="gain-options"></div>
+    </div>
+
+    <div class="modal-backdrop" id="gain-info-modal">
+      <div class="modal-card">
+        <button type="button" class="modal-close" id="gain-info-close" aria-label="Close">×</button>
+        <h3>Recomp vs. Bulk</h3>
+        <div class="modal-section">
+          <div class="modal-section-label">Recomp</div>
+          <p>Body recomposition means building muscle and losing fat at the same time — you train with progressive overload and eat close to your maintenance calories with enough protein. It's slower than doing either goal on its own, but it works well if you're newer to lifting, coming back after time off, or carrying some extra body fat your body can draw on while it builds new muscle.</p>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-label">Bulk</div>
+          <p>A bulk means deliberately eating above maintenance to maximize how fast you build muscle, accepting some fat gain along the way. It tends to work best for people who are already lean and experienced with training — muscle has a real ceiling on how fast it can grow, so a bigger surplus beyond roughly 10–15% over maintenance mostly adds fat, not muscle.</p>
+        </div>
+      </div>
+    </div>
+
     <div class="gate-wrap">
       <div class="macro-preview" id="macro-preview">
         <div class="macro-grid" id="macro-grid">
@@ -1043,8 +1154,14 @@
   const goalConfig = {
     lose:     {label:'Losing Weight',   proteinPerKg:1.2, fatPct:0.25},
     maintain: {label:'Maintaining',     calAdj:1.00, proteinPerKg:1.2, fatPct:0.30},
-    gain:     {label:'Building Muscle', calAdj:1.10, proteinPerKg:1.6, fatPct:0.25}
+    gain:     {label:'Building Muscle', proteinPerKg:1.6, fatPct:0.25}
   };
+
+  const gainModes = {
+    recomp: {label:'Recomp', desc:'Build muscle, lose fat', calAdj:1.00},
+    bulk:   {label:'Bulk',   desc:'Maximize muscle growth', calAdj:1.12}
+  };
+  let selectedGainMode = 'recomp';
 
   document.getElementById('unit-imperial').addEventListener('click', () => setUnit('imperial'));
   document.getElementById('unit-metric').addEventListener('click', () => setUnit('metric'));
@@ -1131,16 +1248,61 @@
       calsForPace(selectedPaceLb) < threshold ? 'block' : 'none';
   }
 
+  function renderGainOptions(){
+    const container = document.getElementById('gain-options');
+    container.innerHTML = '';
+
+    Object.keys(gainModes).forEach(key => {
+      const mode = gainModes[key];
+      const cals = Math.round(currentTdee * mode.calAdj);
+      const card = document.createElement('div');
+      card.className = 'gain-card' + (key === selectedGainMode ? ' active' : '');
+      card.innerHTML = `
+        <div class="gain-name">${mode.label}</div>
+        <div class="gain-desc">${mode.desc}</div>
+        <div class="gain-cals">${cals.toLocaleString()}<span class="gain-cals-unit">calories/day</span></div>
+      `;
+      card.addEventListener('click', () => {
+        selectedGainMode = key;
+        renderGainOptions();
+        renderMacros();
+      });
+      container.appendChild(card);
+    });
+  }
+
   function applyGoalUI(){
     const paceWrap = document.getElementById('pace-wrap');
+    const gainWrap = document.getElementById('gain-wrap');
+    paceWrap.style.display = 'none';
+    gainWrap.style.display = 'none';
+
     if(selectedGoal === 'lose'){
       paceWrap.style.display = 'block';
       renderPaceOptions();
-    } else {
-      paceWrap.style.display = 'none';
+    } else if(selectedGoal === 'gain'){
+      gainWrap.style.display = 'block';
+      renderGainOptions();
     }
     renderMacros();
   }
+
+  document.getElementById('gain-info-btn').addEventListener('click', () => {
+    document.getElementById('gain-info-modal').classList.add('open');
+  });
+  document.getElementById('gain-info-close').addEventListener('click', () => {
+    document.getElementById('gain-info-modal').classList.remove('open');
+  });
+  document.getElementById('gain-info-modal').addEventListener('click', (e) => {
+    if(e.target.id === 'gain-info-modal'){
+      document.getElementById('gain-info-modal').classList.remove('open');
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape'){
+      document.getElementById('gain-info-modal').classList.remove('open');
+    }
+  });
 
   function calcBMR(weightKg, heightCm, age, sex){
     const base = 10*weightKg + 6.25*heightCm - 5*age;
@@ -1239,7 +1401,9 @@
     const cfg = goalConfig[selectedGoal];
     const targetCals = selectedGoal === 'lose'
       ? calsForPace(selectedPaceLb)
-      : Math.round(currentTdee * cfg.calAdj);
+      : selectedGoal === 'gain'
+        ? Math.round(currentTdee * gainModes[selectedGainMode].calAdj)
+        : Math.round(currentTdee * cfg.calAdj);
 
     const proteinG = Math.round(currentWeightKg * cfg.proteinPerKg);
     const proteinCals = proteinG * 4;
