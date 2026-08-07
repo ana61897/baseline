@@ -52,15 +52,21 @@
   }
   .swap-card{
     background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
-    padding:30px; box-shadow:var(--shadow);
+    padding:30px; box-shadow:var(--shadow); text-align:center;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
   }
-  .swap-flow{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+  .swap-emoji{
+    width:60px; height:60px; border-radius:50%; background:var(--cream-2);
+    display:flex; align-items:center; justify-content:center; font-size:28px;
+    margin:0 auto 18px;
+  }
+  .swap-flow{display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:nowrap;}
   .swap-out, .swap-in{
-    font-size:16px; font-weight:700; padding:9px 18px; border-radius:999px;
+    font-size:16px; font-weight:700; padding:9px 18px; border-radius:999px; white-space:nowrap;
   }
   .swap-out{background:var(--cream-2); color:var(--text-lo); text-decoration:line-through;}
   .swap-in{background:var(--olive); color:#fff;}
-  .swap-arrow{color:var(--gold-dark); font-size:20px;}
+  .swap-arrow{color:var(--gold-dark); font-size:20px; flex-shrink:0;}
   .swap-card p{font-size:15.5px; color:var(--text-mid); margin-top:16px; line-height:1.65;}
   .swap-btn{
     display:inline-block; margin-top:16px; background:var(--gold); color:#fff;
@@ -99,12 +105,15 @@
   footer{margin-top:70px; border-top:1px solid var(--line); padding:30px 0 60px;}
   .disclaimer{font-size:12px; color:var(--text-lo); max-width:640px; line-height:1.7;}
   .foot-bottom{display:flex; justify-content:space-between; align-items:center; margin-top:22px; font-size:12px; color:var(--text-lo); font-weight:600;}
-  .foot-contact{margin-top:14px; font-size:12px; color:var(--text-lo);}
+  .foot-contact{margin-top:14px; font-size:12px; color:var(--text-lo); line-height:1.7;}
 
   @media (max-width:720px){
     .hero h1{font-size:30px;}
     .swap-grid{grid-template-columns:1fr;}
     .nl-form{flex-direction:column;}
+    .swap-flow{gap:8px;}
+    .swap-out, .swap-in{font-size:12px; padding:6px 12px;}
+    .swap-arrow{font-size:16px;}
   }
 </style>
 </head>
@@ -131,6 +140,7 @@
 
   <div class="swap-grid">
     <div class="swap-card">
+      <div class="swap-emoji">🍞</div>
       <div class="swap-flow">
         <span class="swap-out">White Bread</span>
         <span class="swap-arrow">→</span>
@@ -141,37 +151,41 @@
     </div>
 
     <div class="swap-card">
+      <div class="swap-emoji">🥤</div>
       <div class="swap-flow">
         <span class="swap-out">Soda</span>
         <span class="swap-arrow">→</span>
-        <span class="swap-in">Recess Adaptogen Water</span>
+        <span class="swap-in">Adaptogen Water</span>
       </div>
       <p>Keeps the fizz and the can-in-hand ritual, drops the sugar, and comes in at just 20 calories — a fraction of what a can of soda costs you.</p>
       <a href="https://amzn.to/4z3N15a" class="swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
     </div>
 
     <div class="swap-card">
+      <div class="swap-emoji">🍻</div>
       <div class="swap-flow">
         <span class="swap-out">Alcohol</span>
         <span class="swap-arrow">→</span>
         <span class="swap-in">Buzz Drops</span>
       </div>
       <p>A few drops mixed into any mocktail gives you the social, relaxed part of a drink without alcohol's calories or the next-day crash. Start low — 0.25ml per drink, no more than 1ml an hour.</p>
-      <a href="https://redwoodreserves.com/products/buzz-drops-non-alcoholic-mocktail-recipe-drops?srsltid=AfmBOorXkAkI50CQiQDyy6AtAvitv3M9SzDW2RnoJh9oH0MzUBqr5Y7r" class="swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
+      <a href="https://redwoodreserves.com/products/buzz-drops-non-alcoholic-mocktail-recipe-drops?ref=uf1pGS3R" class="swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
       <div class="swap-note">Contains cannabis extract. 21+ only — check that it's legal where you live before ordering.</div>
     </div>
 
     <div class="swap-card">
+      <div class="swap-emoji">🍬</div>
       <div class="swap-flow">
         <span class="swap-out">Sugar</span>
         <span class="swap-arrow">→</span>
-        <span class="swap-in">Monkfruit (In The Raw)</span>
+        <span class="swap-in">Monkfruit</span>
       </div>
       <p>Zero calories and no blood sugar spike, with a clean sweetness that's closer to real sugar than most substitutes — no bitter aftertaste to work around.</p>
       <a href="https://amzn.to/3RE7Q6u" class="swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
     </div>
 
     <div class="swap-card">
+      <div class="swap-emoji">🧀</div>
       <div class="swap-flow">
         <span class="swap-out">Doritos</span>
         <span class="swap-arrow">→</span>
@@ -182,6 +196,7 @@
     </div>
 
     <div class="swap-card">
+      <div class="swap-emoji">🍿</div>
       <div class="swap-flow">
         <span class="swap-out">Popcorn Bags</span>
         <span class="swap-arrow">→</span>
@@ -192,6 +207,7 @@
     </div>
 
     <div class="swap-card">
+      <div class="swap-emoji">🍦</div>
       <div class="swap-flow">
         <span class="swap-out">Ice Cream</span>
         <span class="swap-arrow">→</span>
