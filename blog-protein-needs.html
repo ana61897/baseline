@@ -207,10 +207,21 @@
 </div>
 
 <script>
+  const SHEET_WEBHOOK_URL = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
   function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+  function sendToSheet(email, source){
+    if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.startsWith('PASTE_')) return;
+    fetch(SHEET_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ email, source, page: location.pathname })
+    }).catch(() => {});
+  }
   document.getElementById('nl-btn').addEventListener('click', () => {
     const email = document.getElementById('nl-email').value.trim();
     if(!isValidEmail(email)){ alert('Enter a valid email to subscribe.'); return; }
+    sendToSheet(email, 'newsletter');
     document.getElementById('nl-success').classList.add('show');
     document.getElementById('nl-email').value = '';
   });
