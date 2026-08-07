@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recipes — Baseline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF5E8; --cream-2:#F5EDDB; --card:#FFFDF6;
+    --olive:#5E6B47; --olive-dark:#4A5538; --olive-light:#8C9A6E;
+    --gold:#C79A3C; --gold-light:#E3C077; --gold-dark:#A87F2A;
+    --text-hi:#3C3527; --text-lo:#8A8069; --text-mid:#5C5442;
+    --line:rgba(94,107,71,0.18); --shadow:0 10px 30px rgba(94,71,20,0.08);
+    --radius:22px; --radius-sm:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--cream); color:var(--text-mid); font-family:'Nunito Sans', sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Fraunces', serif; color:var(--text-hi); font-weight:500; margin:0;}
+  ::selection{background:var(--gold-light); color:var(--text-hi);}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:30px 0; flex-wrap:wrap; gap:14px;}
+  .wordmark{font-family:'Fraunces', serif; font-size:22px; letter-spacing:0.03em; color:var(--text-hi); font-weight:500;}
+  .wordmark span{color:var(--gold-dark); font-style:italic;}
+  .nav-links{display:flex; align-items:center; gap:30px; flex-wrap:wrap;}
+  .nav-links a{
+    font-family:'Nunito Sans', sans-serif; font-size:13.5px; font-weight:700;
+    color:var(--text-mid); text-decoration:none; padding-bottom:4px;
+    border-bottom:2px solid transparent; transition:color .15s ease, border-color .15s ease;
+  }
+  .nav-links a:hover{color:var(--olive);}
+  .nav-links a.active{color:var(--gold-dark); border-color:var(--gold);}
+  @media (max-width:640px){
+    .nav-links{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:18px;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-links a{white-space:nowrap; flex-shrink:0;}
+  }
+
+  .hero{padding:50px 0 10px; text-align:center;}
+  .eyebrow{font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); font-weight:700; margin-bottom:16px;}
+  .hero h1{font-size:42px; line-height:1.2; max-width:620px; margin:0 auto;}
+  .hero h1 em{font-style:italic; color:var(--olive);}
+  .hero p{max-width:520px; margin:18px auto 0; color:var(--text-lo); font-size:16px;}
+
+  /* ---- FILTERS ---- */
+  .filter-bar{
+    display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:40px;
+  }
+  .filter-pill{
+    font-family:'Nunito Sans', sans-serif; font-size:13px; font-weight:700;
+    color:var(--text-mid); background:var(--card); border:1.5px solid var(--line);
+    padding:9px 18px; border-radius:999px; cursor:pointer; transition:all .15s ease;
+  }
+  .filter-pill:hover{border-color:var(--gold);}
+  .filter-pill.active{background:var(--olive); color:#fff; border-color:var(--olive);}
+  .no-results{
+    display:none; text-align:center; margin-top:28px; padding:30px 20px;
+    background:var(--cream-2); border-radius:var(--radius-sm); color:var(--text-lo); font-size:14px;
+  }
+
+  /* ---- RECIPE INDEX CARDS ---- */
+  .recipe-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;
+    margin-top:28px;
+  }
+  .recipe-card.hidden{display:none;}
+  .recipe-card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .recipe-card:hover{transform:translateY(-5px); box-shadow:0 18px 36px rgba(94,71,20,0.15);}
+
+  .recipe-photo{
+    position:relative; height:170px; display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .recipe-photo::before{
+    content:""; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,0.16) 1.5px, transparent 1.5px);
+    background-size:14px 14px; opacity:.5;
+  }
+  .recipe-photo .photo-orb{
+    position:relative; width:96px; height:96px; border-radius:50%;
+    background:rgba(255,255,255,0.16); backdrop-filter:blur(1px);
+    display:flex; align-items:center; justify-content:center; font-size:44px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.12), inset 0 0 0 1px rgba(255,255,255,0.25);
+  }
+  .photo-1{background:linear-gradient(135deg,#5E9088,#2F4F49);}
+  .photo-2{background:linear-gradient(135deg,#E8C77E,#C79A3C);}
+  .photo-3{background:linear-gradient(135deg,#96A56E,#5E6B47);}
+  .photo-4{background:linear-gradient(135deg,#CE8858,#8C4A2A);}
+  .photo-5{background:linear-gradient(135deg,#E2CEA6,#B58E4F);}
+  .photo-6{background:linear-gradient(135deg,#BDAE63,#6B7A4A);}
+  .photo-7{background:linear-gradient(135deg,#8B5E4A,#4A2E22);}
+  .photo-8{background:linear-gradient(135deg,#C9A85C,#7A6A3A);}
+  .photo-9{background:linear-gradient(135deg,#8FAAB0,#3E5560);}
+  .photo-10{background:linear-gradient(135deg,#D9C25A,#7A9A4A);}
+  .photo-11{background:linear-gradient(135deg,#B98A52,#6B4423);}
+  .photo-12{background:linear-gradient(135deg,#E8D874,#B79A2E);}
+  .photo-13{background:linear-gradient(135deg,#C98B6A,#8A4A2E);}
+  .photo-14{background:linear-gradient(135deg,#D9B54A,#4A2E22);}
+  .photo-15{background:linear-gradient(135deg,#F0DCC8,#C97B93);}
+  .photo-16{background:linear-gradient(135deg,#F0DCE3,#8A5A78);}
+
+  .recipe-tag{
+    position:absolute; top:12px; left:12px; font-size:10.5px; font-weight:800;
+    letter-spacing:0.06em; text-transform:uppercase; color:#fff;
+    background:rgba(60,53,39,0.35); padding:5px 11px; border-radius:999px;
+  }
+
+  .recipe-body{padding:22px 24px 24px; display:flex; flex-direction:column; flex-grow:1;}
+  .recipe-card h3{font-size:18px; line-height:1.32;}
+  .recipe-card .recipe-blurb{font-size:13px; color:var(--text-mid); margin-top:9px; line-height:1.6; flex-grow:1;}
+
+  .recipe-meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+  .meta-chip{
+    font-size:11px; font-weight:700; color:var(--text-lo); background:var(--cream-2);
+    padding:6px 10px; border-radius:999px; display:flex; align-items:center; gap:5px;
+  }
+  .skill-dots{display:inline-flex; gap:2px; margin-left:2px;}
+  .skill-dots span{width:5px; height:5px; border-radius:50%; background:var(--line);}
+  .skill-dots span.filled{background:var(--gold-dark);}
+
+  .recipe-jump{
+    margin-top:16px; font-size:12.5px; font-weight:800; color:var(--gold-dark);
+    text-decoration:none; display:inline-flex; align-items:center; gap:5px;
+  }
+  .recipe-jump:hover{color:var(--olive);}
+
+  .index-note{
+    margin-top:36px; text-align:center; font-size:13px; color:var(--text-lo);
+    background:var(--cream-2); border-radius:var(--radius-sm); padding:16px 20px;
+  }
+
+  /* ---- FULL RECIPES ---- */
+  .full-recipes{margin-top:90px;}
+  .section-label{
+    text-align:center; font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--gold-dark); font-weight:700; margin-bottom:8px;
+  }
+  .section-title{text-align:center; font-size:30px; margin-bottom:56px;}
+
+  .full-recipe{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); overflow:hidden; margin-bottom:36px;
+  }
+  .full-photo{
+    position:relative; height:220px; display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .full-photo::before{
+    content:""; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,0.16) 1.5px, transparent 1.5px);
+    background-size:16px 16px; opacity:.5;
+  }
+  .full-photo .photo-orb{
+    position:relative; width:126px; height:126px; border-radius:50%;
+    background:rgba(255,255,255,0.16);
+    display:flex; align-items:center; justify-content:center; font-size:58px;
+    box-shadow:0 10px 26px rgba(0,0,0,0.14), inset 0 0 0 1px rgba(255,255,255,0.25);
+  }
+  .full-recipe-body{padding:38px 40px 42px;}
+  .full-recipe-head{display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap;}
+  .full-recipe h2{font-size:26px; max-width:520px;}
+  .full-tag{font-size:11px; font-weight:800; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:10px;}
+
+  .nutri-box{
+    display:flex; gap:22px; background:var(--cream-2); border-radius:var(--radius-sm);
+    padding:14px 20px; flex-wrap:wrap; flex-shrink:0;
+  }
+  .nutri-item{text-align:center;}
+  .nutri-item .num{font-family:'Fraunces', serif; font-size:19px; color:var(--text-hi); display:block;}
+  .nutri-item .lbl{font-size:10.5px; color:var(--text-lo); font-weight:700; text-transform:uppercase; letter-spacing:0.04em;}
+
+  .full-recipe-blurb{font-size:15px; color:var(--text-mid); margin-top:22px; line-height:1.75; max-width:640px;}
+
+  .recipe-meta-row{display:flex; gap:10px; margin-top:22px; flex-wrap:wrap;}
+
+  .recipe-columns{display:grid; grid-template-columns:1fr 1.4fr; gap:36px; margin-top:32px;}
+  .recipe-columns h4{
+    font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--olive-dark);
+    font-weight:800; margin-bottom:14px;
+  }
+  .ingredient-list{list-style:none; padding:0; margin:0; font-size:14px; color:var(--text-mid);}
+  .ingredient-list li{padding:8px 0; border-bottom:1px dashed var(--line);}
+  .ingredient-list li:last-child{border-bottom:none;}
+  .steps-list{list-style:none; padding:0; margin:0; counter-reset:step;}
+  .steps-list li{
+    counter-increment:step; padding:10px 0 10px 40px; position:relative; font-size:14.5px;
+    color:var(--text-mid); border-bottom:1px dashed var(--line);
+  }
+  .steps-list li:last-child{border-bottom:none;}
+  .steps-list li::before{
+    content:counter(step); position:absolute; left:0; top:9px; width:26px; height:26px;
+    border-radius:50%; background:var(--olive); color:#fff; font-family:'Fraunces', serif;
+    font-size:13px; display:flex; align-items:center; justify-content:center; font-weight:600;
+  }
+
+  .back-to-top{
+    display:inline-flex; align-items:center; gap:6px; margin-top:28px; font-size:12.5px;
+    font-weight:800; color:var(--gold-dark); text-decoration:none;
+  }
+  .back-to-top:hover{color:var(--olive);}
+
+  .newsletter{
+    margin-top:60px; background:var(--olive); border-radius:var(--radius); padding:44px;
+    text-align:center; color:#fff;
+  }
+  .newsletter h3{color:#fff; font-size:25px;}
+  .newsletter p{color:rgba(255,255,255,0.8); font-size:13.5px; margin-top:8px; max-width:400px; margin-left:auto; margin-right:auto;}
+  .nl-form{display:flex; gap:10px; max-width:420px; margin:22px auto 0;}
+  .nl-form input{
+    flex:1; background:rgba(255,255,255,0.14); border:1.5px solid rgba(255,255,255,0.3);
+    color:#fff; padding:13px 18px; border-radius:999px; outline:none; font-size:14px;
+    font-family:'Nunito Sans', sans-serif; font-weight:600;
+  }
+  .nl-form input::placeholder{color:rgba(255,255,255,0.6);}
+  .nl-form input:focus{border-color:var(--gold-light);}
+  .nl-form button{
+    background:var(--gold); color:#fff; border:none; padding:13px 24px; border-radius:999px;
+    font-weight:800; cursor:pointer; font-size:13.5px; white-space:nowrap;
+  }
+  .nl-form button:hover{background:var(--gold-light);}
+  .nl-success{margin-top:14px; font-size:13px; font-weight:700; display:none;}
+  .nl-success.show{display:block;}
+
+  footer{margin-top:70px; border-top:1px solid var(--line); padding:30px 0 60px;}
+  .disclaimer{font-size:12px; color:var(--text-lo); max-width:640px; line-height:1.7;}
+  .foot-bottom{display:flex; justify-content:space-between; align-items:center; margin-top:22px; font-size:12px; color:var(--text-lo); font-weight:600;}
+
+  @media (max-width:820px){
+    .recipe-grid{grid-template-columns:repeat(2, 1fr);}
+    .recipe-columns{grid-template-columns:1fr;}
+  }
+  @media (max-width:720px){
+    .hero h1{font-size:30px;}
+    .recipe-grid{grid-template-columns:1fr;}
+    .nl-form{flex-direction:column;}
+    .full-recipe-body{padding:28px 22px 32px;}
+    .full-recipe-head{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap" id="top">
+
+  <div class="nav">
+    <div class="wordmark">Base<span>line</span></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tdee-calculator.html">TDEE Calculator</a>
+      <a href="product-swaps.html">Product Swaps</a>
+      <a href="recipes.html" class="active">Recipes</a>
+      <a href="blog.html">Blog</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="eyebrow">Cook Like the Numbers Matter</div>
+    <h1>Meals built around your <em>macros</em>, not your willpower.</h1>
+    <p>Sixteen go-to recipes and mocktails with the nutrition math already done — real food, real drinks, real portions, and a reason behind every ingredient.</p>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-pill active" data-filter="all">All Recipes</button>
+    <button class="filter-pill" data-filter="high-protein">High Protein</button>
+    <button class="filter-pill" data-filter="under-350-cal">Under 350 Cal</button>
+    <button class="filter-pill" data-filter="dessert">Desserts</button>
+    <button class="filter-pill" data-filter="snack">Snacks</button>
+    <button class="filter-pill" data-filter="high-fiber">High Fiber</button>
+    <button class="filter-pill" data-filter="vegetarian">Vegetarian</button>
+    <button class="filter-pill" data-filter="mocktail">Mocktails</button>
+  </div>
+
+  <!-- RECIPE INDEX -->
+  <div class="recipe-grid">
+
+    <div class="recipe-card" data-tags="high-protein" id="card-salmon-broccoli">
+      <div class="recipe-photo photo-1"><span class="recipe-tag">Dinner</span><div class="photo-orb">🐟</div></div>
+      <div class="recipe-body">
+        <h3>Sheet-Pan Salmon with Charred Broccoli &amp; Lemon</h3>
+        <p class="recipe-blurb">One pan, fifteen minutes of hands-on time, and an omega-3 count your cardiologist would high-five you for.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 25 min</span>
+          <span class="meta-chip">📊 Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🔥 420 cal · 34g protein</span>
+        </div>
+        <a href="#salmon-broccoli" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="high-protein vegetarian" id="card-yogurt-bowl">
+      <div class="recipe-photo photo-2"><span class="recipe-tag">Breakfast</span><div class="photo-orb">🥣</div></div>
+      <div class="recipe-body">
+        <h3>High-Protein Greek Yogurt Power Bowl</h3>
+        <p class="recipe-blurb">Dessert-for-breakfast energy with the macros of an actual meal — no protein powder required.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 8 min</span>
+          <span class="meta-chip">📊 Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🔥 380 cal · 32g protein</span>
+        </div>
+        <a href="#yogurt-bowl" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="high-fiber vegetarian" id="card-lentil-bowl">
+      <div class="recipe-photo photo-3"><span class="recipe-tag">Vegan</span><div class="photo-orb">🥗</div></div>
+      <div class="recipe-body">
+        <h3>Lentil &amp; Sweet Potato Buddha Bowl</h3>
+        <p class="recipe-blurb">18 grams of fiber in one bowl — more than most people eat in an entire day, and you won't notice you're eating it.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 35 min</span>
+          <span class="meta-chip">📊 Medium <span class="skill-dots"><span class="filled"></span><span class="filled"></span><span></span></span></span>
+          <span class="meta-chip">🔥 450 cal · 19g protein</span>
+        </div>
+        <a href="#lentil-bowl" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="high-protein under-350-cal high-fiber" id="card-turkey-chili">
+      <div class="recipe-photo photo-4"><span class="recipe-tag">Meal Prep</span><div class="photo-orb">🌶️</div></div>
+      <div class="recipe-body">
+        <h3>Turkey &amp; White Bean Chili</h3>
+        <p class="recipe-blurb">Freezes like a dream, tastes better on day two, and quietly sneaks a full serving of beans past chili purists.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 45 min</span>
+          <span class="meta-chip">📊 Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🔥 340 cal · 30g protein</span>
+        </div>
+        <a href="#turkey-chili" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="under-350-cal high-fiber vegetarian" id="card-overnight-oats">
+      <div class="recipe-photo photo-5"><span class="recipe-tag">Breakfast</span><div class="photo-orb">🥄</div></div>
+      <div class="recipe-body">
+        <h3>Overnight Oats, Three Ways</h3>
+        <p class="recipe-blurb">Cooling cooked oats overnight actually changes their starch structure — here's how to make that work for you, not against you.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 5 min + rest</span>
+          <span class="meta-chip">📊 Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🔥 350 cal · 16g protein</span>
+        </div>
+        <a href="#overnight-oats" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="high-protein" id="card-chicken-quinoa">
+      <div class="recipe-photo photo-6"><span class="recipe-tag">Lunch</span><div class="photo-orb">🍗</div></div>
+      <div class="recipe-body">
+        <h3>Grilled Chicken &amp; Quinoa Salad with Herb Vinaigrette</h3>
+        <p class="recipe-blurb">Quinoa is one of the rare plant foods with all nine essential amino acids on its own — this salad doesn't need the chicken to be "complete," it just wants it.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 30 min</span>
+          <span class="meta-chip">📊 Medium <span class="skill-dots"><span class="filled"></span><span class="filled"></span><span></span></span></span>
+          <span class="meta-chip">🔥 410 cal · 36g protein</span>
+        </div>
+        <a href="#chicken-quinoa" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="dessert under-350-cal high-fiber vegetarian" id="card-chocolate-mousse">
+      <div class="recipe-photo photo-7"><span class="recipe-tag">Dessert</span><div class="photo-orb">🍫</div></div>
+      <div class="recipe-body">
+        <h3>Dark Chocolate Avocado Mousse</h3>
+        <p class="recipe-blurb">Two ripe avocados and a blender is genuinely all this takes — the fat that usually gets avocado a bad rap is exactly what makes this taste like it shouldn't be this healthy.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 10 min + chill</span>
+          <span class="meta-chip">📊 Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🔥 190 cal · 4g protein</span>
+        </div>
+        <a href="#chocolate-mousse" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="snack under-350-cal high-fiber vegetarian" id="card-chickpea-snack">
+      <div class="recipe-photo photo-8"><span class="recipe-tag">Snack</span><div class="photo-orb">🫘</div></div>
+      <div class="recipe-body">
+        <h3>Crispy Roasted Chickpea &amp; Almond Mix</h3>
+        <p class="recipe-blurb">Crunchy, salty, and portioned into a container instead of a bag — the fiber from the chickpeas is what makes this hold you over instead of just delaying the next craving.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 35 min</span>
+          <span class="meta-chip">📊 Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🔥 210 cal · 8g protein</span>
+        </div>
+        <a href="#chickpea-snack" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="mocktail under-350-cal vegetarian" id="card-tonic-bitters">
+      <div class="recipe-photo photo-9"><span class="recipe-tag">Mocktail</span><div class="photo-orb">🥃</div></div>
+      <div class="recipe-body">
+        <h3>Sugar-Free Tonic &amp; Bitters, on the Rocks</h3>
+        <p class="recipe-blurb">Bitters are basically flavor concentrate — a few dashes turn sparkling water into something that tastes like you ordered it, for about five calories.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 3 min</span>
+          <span class="meta-chip">📊 Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🔥 5 cal · 0g protein</span>
+        </div>
+        <a href="#tonic-bitters" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="mocktail under-350-cal vegetarian" id="card-mockarita">
+      <div class="recipe-photo photo-10"><span class="recipe-tag">Mocktail</span><div class="photo-orb">🍹</div></div>
+      <div class="recipe-body">
+        <h3>Pineapple Jalapeño Mockarita</h3>
+        <p class="recipe-blurb">Monkfruit replaces the added sugar, not the pineapple — so you still get real fruit sugar, just none of the extra you didn't ask for.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 8 min</span>
+          <span class="meta-chip">📊 Medium <span class="skill-dots"><span class="filled"></span><span class="filled"></span><span></span></span></span>
+          <span class="meta-chip">🔥 60 cal · 1g protein</span>
+        </div>
+        <a href="#mockarita" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="mocktail under-350-cal vegetarian" id="card-whiskey-sour-mocktail">
+      <div class="recipe-photo photo-11"><span class="recipe-tag">Mocktail</span><div class="photo-orb">🍋</div></div>
+      <div class="recipe-body">
+        <h3>Whiskey Sour Mocktail</h3>
+        <p class="recipe-blurb">Strongly brewed black tea gives you the same tannic backbone and color as whiskey, and the egg white foam is what makes this taste like a real sour, not lemonade in a fancy glass.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 10 min</span>
+          <span class="meta-chip">📊 Medium <span class="skill-dots"><span class="filled"></span><span class="filled"></span><span></span></span></span>
+          <span class="meta-chip">🔥 45 cal · 4g protein</span>
+        </div>
+        <a href="#whiskey-sour-mocktail" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="mocktail under-350-cal vegetarian" id="card-lemon-drop-mocktini">
+      <div class="recipe-photo photo-12"><span class="recipe-tag">Mocktail</span><div class="photo-orb">🍸</div></div>
+      <div class="recipe-body">
+        <h3>Lemon Drop Mocktini</h3>
+        <p class="recipe-blurb">All the tartness of the original, none of the sugar rim required to make it drinkable.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 5 min</span>
+          <span class="meta-chip">📊 Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🔥 15 cal · 0g protein</span>
+        </div>
+        <a href="#lemon-drop-mocktini" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="mocktail under-350-cal vegetarian" id="card-mockscow-mule">
+      <div class="recipe-photo photo-13"><span class="recipe-tag">Mocktail</span><div class="photo-orb">🫚</div></div>
+      <div class="recipe-body">
+        <h3>Mockscow Mule</h3>
+        <p class="recipe-blurb">A sugar-free ginger beer is the one swap that matters here — the copper mug is just for show, but it's a good show.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 5 min</span>
+          <span class="meta-chip">📊 Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🔥 10 cal · 0g protein</span>
+        </div>
+        <a href="#mockscow-mule" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="dessert under-350-cal vegetarian" id="card-frozen-bananas">
+      <div class="recipe-photo photo-14"><span class="recipe-tag">Dessert</span><div class="photo-orb">🍌</div></div>
+      <div class="recipe-body">
+        <h3>Chocolate-Covered Frozen Bananas</h3>
+        <p class="recipe-blurb">Frozen banana plus a thin dark chocolate shell is dessert that also quietly delivers potassium — this isn't a candy bar with fruit in the name, the coating is doing far less work than you'd think.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 15 min + freeze</span>
+          <span class="meta-chip">📊 Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🔥 140 cal · 2g protein</span>
+        </div>
+        <a href="#frozen-bananas" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="dessert under-350-cal vegetarian" id="card-angel-food-cake">
+      <div class="recipe-photo photo-15"><span class="recipe-tag">Dessert</span><div class="photo-orb">🍰</div></div>
+      <div class="recipe-body">
+        <h3>Mini Angel Food Cake with Sugar-Free Cool Whip &amp; Berries</h3>
+        <p class="recipe-blurb">Angel food cake is the rare cake that's naturally fat-free — just whipped egg whites and flour, no butter or yolks anywhere near it — so a sugar-free topping is the only calorie math that still needed doing.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 40 min</span>
+          <span class="meta-chip">📊 Medium <span class="skill-dots"><span class="filled"></span><span class="filled"></span><span></span></span></span>
+          <span class="meta-chip">🔥 130 cal · 3g protein</span>
+        </div>
+        <a href="#angel-food-cake" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-tags="dessert under-350-cal vegetarian" id="card-yogurt-bark">
+      <div class="recipe-photo photo-16"><span class="recipe-tag">Dessert</span><div class="photo-orb">🍓</div></div>
+      <div class="recipe-body">
+        <h3>Frozen Greek Yogurt Bark with Berries &amp; Dark Chocolate</h3>
+        <p class="recipe-blurb">Frozen yogurt without the churn — spread it thin, freeze it flat, and it snaps like bark instead of scooping like a rock-hard tub of the real thing.</p>
+        <div class="recipe-meta">
+          <span class="meta-chip">⏱ 10 min + freeze</span>
+          <span class="meta-chip">📊 Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🔥 100 cal · 6g protein</span>
+        </div>
+        <a href="#yogurt-bark" class="recipe-jump">Jump to recipe ↓</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="no-results" id="no-results">
+    No recipes match that combination of filters yet — try clearing one.
+  </div>
+
+  <div class="index-note">
+    New recipes go up monthly. Every one comes with the nutrition breakdown already worked out — no app required.
+  </div>
+
+  <!-- FULL RECIPES -->
+  <div class="full-recipes">
+    <div class="section-label">The Full Recipes</div>
+    <h2 class="section-title">Scroll down, cook along.</h2>
+
+    <!-- 1: SALMON -->
+    <div class="full-recipe" id="salmon-broccoli">
+      <div class="full-photo photo-1"><div class="photo-orb">🐟</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Dinner · Serves 2</div>
+            <h2>Sheet-Pan Salmon with Charred Broccoli &amp; Lemon</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">420</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">34g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">18g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">24g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">4g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          Salmon gets a lot of hype, and for once, the hype is earned. It's one of the few foods that delivers a real dose of long-chain omega-3s — the EPA and DHA your body can actually use, unlike the ALA in flaxseed or walnuts — alongside 30-plus grams of complete protein per fillet. Charring the broccoli under high heat instead of steaming it caramelizes the edges and, contrary to what the clean-eating internet insists, doesn't meaningfully wreck its vitamin C. This is the recipe I make on a Tuesday when I want dinner solved on one pan with zero decisions left to make.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 25 min total</span>
+          <span class="meta-chip">📊 Skill: Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>2 salmon fillets (6 oz each)</li>
+              <li>1 large head broccoli, cut into florets</li>
+              <li>2 tbsp olive oil, divided</li>
+              <li>1 lemon, half sliced thin, half juiced</li>
+              <li>3 cloves garlic, minced</li>
+              <li>1/2 tsp smoked paprika</li>
+              <li>Salt &amp; cracked pepper, to taste</li>
+              <li>Red pepper flakes (optional)</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Preheat oven to 425°F (220°C) and line a sheet pan with parchment.</li>
+              <li>Toss broccoli florets with 1 tbsp olive oil, garlic, salt, and pepper. Spread on one side of the pan and roast 8 minutes.</li>
+              <li>Push broccoli aside, add salmon fillets to the pan. Brush with remaining olive oil, sprinkle with smoked paprika, salt, and pepper, and top each fillet with lemon slices.</li>
+              <li>Roast 10–12 minutes, until salmon flakes easily and broccoli edges are charred.</li>
+              <li>Squeeze fresh lemon juice over everything, add red pepper flakes if using, and serve immediately.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-salmon-broccoli" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 2: YOGURT BOWL -->
+    <div class="full-recipe" id="yogurt-bowl">
+      <div class="full-photo photo-2"><div class="photo-orb">🥣</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Breakfast · Serves 1</div>
+            <h2>High-Protein Greek Yogurt Power Bowl</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">380</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">32g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">42g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">9g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">4g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          Straining regular yogurt into Greek yogurt removes most of the whey, which is why a single cup packs nearly double the protein of its unstrained cousin for almost the same calories — it's one of the few genuinely free upgrades in nutrition. Layered with berries and a crunchy topping, this reads like dessert but does the job of a real meal: enough protein to actually curb your appetite until lunch, not just delay it by twenty minutes.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 8 min total</span>
+          <span class="meta-chip">📊 Skill: Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>1 cup (240g) plain nonfat Greek yogurt</li>
+              <li>1/2 cup mixed berries (fresh or frozen)</li>
+              <li>1 tbsp honey or maple syrup</li>
+              <li>2 tbsp granola or chopped walnuts</li>
+              <li>1 tbsp chia seeds</li>
+              <li>Pinch of cinnamon</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Spoon Greek yogurt into a bowl and smooth the top.</li>
+              <li>Arrange berries over half the bowl.</li>
+              <li>Sprinkle granola or walnuts and chia seeds over the top.</li>
+              <li>Drizzle with honey and finish with a pinch of cinnamon.</li>
+              <li>Serve immediately, or prep the yogurt and toppings separately the night before.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-yogurt-bowl" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 3: LENTIL BOWL -->
+    <div class="full-recipe" id="lentil-bowl">
+      <div class="full-photo photo-3"><div class="photo-orb">🥗</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Vegan · Serves 2</div>
+            <h2>Lentil &amp; Sweet Potato Buddha Bowl</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">450</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">19g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">68g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">12g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">18g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          Eighteen grams of fiber in one bowl — more than most adults eat in an entire day — and you'd never guess it while eating it, because the roasted sweet potato and tahini drizzle taste more like comfort food than a fiber intervention. Lentils are also one of the few plant proteins that show up with a meaningful iron dose attached, which matters more than people realize if red meat isn't a daily habit. This one keeps well for three days, so double the batch on a Sunday and thank yourself on Wednesday.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 35 min total</span>
+          <span class="meta-chip">📊 Skill: Medium <span class="skill-dots"><span class="filled"></span><span class="filled"></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: Yes</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>1 cup dried green or brown lentils, rinsed</li>
+              <li>2 medium sweet potatoes, cubed</li>
+              <li>2 cups baby spinach</li>
+              <li>1/2 cup shredded red cabbage</li>
+              <li>2 tbsp olive oil, divided</li>
+              <li>1 tsp cumin, 1/2 tsp smoked paprika</li>
+              <li>2 tbsp tahini + 1 tbsp lemon juice + water to thin</li>
+              <li>Salt &amp; pepper, to taste</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Preheat oven to 400°F (200°C). Toss sweet potato cubes with 1 tbsp olive oil, cumin, paprika, salt, and pepper. Roast 25 minutes, flipping halfway.</li>
+              <li>Meanwhile, simmer lentils in salted water (or broth) for 18–20 minutes until tender but not mushy. Drain.</li>
+              <li>Whisk tahini, lemon juice, and water until pourable and smooth.</li>
+              <li>Build bowls with spinach and cabbage as the base, then top with lentils and roasted sweet potato.</li>
+              <li>Drizzle generously with tahini sauce and finish with remaining olive oil.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-lentil-bowl" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 4: TURKEY CHILI -->
+    <div class="full-recipe" id="turkey-chili">
+      <div class="full-photo photo-4"><div class="photo-orb">🌶️</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Meal Prep · Serves 6</div>
+            <h2>Turkey &amp; White Bean Chili</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">340</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">30g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">28g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">11g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">10g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          Swapping ground beef for lean ground turkey cuts the saturated fat in half without asking you to give up a single spoonful of the actual chili experience — the beans and the long simmer are doing most of the flavor work anyway. This one freezes in individual portions better than almost anything else in regular rotation, which makes it the closest thing to a "future you already ate dinner" trick. Purists can skip the beans; everyone else should leave them in for the fiber.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 45 min total</span>
+          <span class="meta-chip">📊 Skill: Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: Yes, 3 months</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>1.5 lb ground turkey (93% lean)</li>
+              <li>1 yellow onion, diced</li>
+              <li>3 cloves garlic, minced</li>
+              <li>2 cans (15 oz) white beans, drained</li>
+              <li>1 can (28 oz) crushed tomatoes</li>
+              <li>1 can (4 oz) diced green chiles</li>
+              <li>2 tbsp chili powder, 1 tbsp cumin</li>
+              <li>2 cups low-sodium chicken broth</li>
+              <li>Salt &amp; pepper, to taste</li>
+              <li>Optional: avocado, lime, cilantro to top</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>In a large pot over medium heat, brown the turkey, breaking it up as it cooks. Remove excess liquid.</li>
+              <li>Add onion and garlic, cook until softened, about 5 minutes.</li>
+              <li>Stir in chili powder and cumin, toast for 30 seconds until fragrant.</li>
+              <li>Add beans, crushed tomatoes, green chiles, and broth. Bring to a simmer.</li>
+              <li>Reduce heat and simmer uncovered 30 minutes, stirring occasionally, until thickened.</li>
+              <li>Season to taste and serve topped with avocado, lime, or cilantro.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-turkey-chili" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 5: OVERNIGHT OATS -->
+    <div class="full-recipe" id="overnight-oats">
+      <div class="full-photo photo-5"><div class="photo-orb">🥄</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Breakfast · Serves 1</div>
+            <h2>Overnight Oats, Three Ways</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">350</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">16g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">50g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">9g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">9g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          Letting oats sit in liquid overnight isn't just about convenience — the starches slowly hydrate and partially convert into "resistant starch," a type your gut bacteria ferment instead of fully digesting, which is part of why overnight oats tend to sit more steadily than a bowl of the instant kind. The base recipe below is intentionally boring so the three mix-in variations can do the interesting part: pick one and let the fridge do the cooking.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 5 min + overnight rest</span>
+          <span class="meta-chip">📊 Skill: Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Base Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>1/2 cup rolled oats</li>
+              <li>1/2 cup milk of choice</li>
+              <li>1/4 cup Greek yogurt</li>
+              <li>1 tbsp chia seeds</li>
+              <li>1 tsp honey or maple syrup</li>
+              <li><strong>Peanut Butter Banana:</strong> 1 tbsp PB + 1/2 sliced banana</li>
+              <li><strong>Cocoa Cherry:</strong> 1 tbsp cocoa powder + 1/4 cup cherries</li>
+              <li><strong>Apple Cinnamon:</strong> 1/2 diced apple + 1/2 tsp cinnamon</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Combine oats, milk, Greek yogurt, chia seeds, and sweetener in a jar or container.</li>
+              <li>Stir in your chosen mix-in variation, reserving a little for topping.</li>
+              <li>Cover and refrigerate at least 6 hours, or overnight.</li>
+              <li>Stir before eating; loosen with a splash of milk if it's thicker than you'd like.</li>
+              <li>Top with the reserved mix-in and serve cold.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-overnight-oats" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 6: CHICKEN QUINOA -->
+    <div class="full-recipe" id="chicken-quinoa">
+      <div class="full-photo photo-6"><div class="photo-orb">🍗</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Lunch · Serves 2</div>
+            <h2>Grilled Chicken &amp; Quinoa Salad with Herb Vinaigrette</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">410</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">36g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">30g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">16g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">5g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          Quinoa is technically a seed, not a grain, and it's one of the rare plant foods that shows up with all nine essential amino acids on its own — a "complete protein" in the same sense meat and eggs are, which most grains simply aren't. That doesn't make the chicken here redundant; it just means this salad isn't relying on it to hit its protein target the way most grain bowls quietly do. Make a double batch of the vinaigrette — it's the kind of thing you'll want on everything in the fridge by Thursday.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 30 min total</span>
+          <span class="meta-chip">📊 Skill: Medium <span class="skill-dots"><span class="filled"></span><span class="filled"></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>2 boneless chicken breasts</li>
+              <li>1 cup dry quinoa, rinsed</li>
+              <li>1 cup cherry tomatoes, halved</li>
+              <li>1/2 cucumber, diced</li>
+              <li>1/4 cup crumbled feta</li>
+              <li>1/4 cup fresh parsley, chopped</li>
+              <li>3 tbsp olive oil, 2 tbsp red wine vinegar</li>
+              <li>1 tsp Dijon mustard, 1 clove garlic, minced</li>
+              <li>Salt &amp; pepper, to taste</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Cook quinoa in 2 cups salted water per package instructions; fluff and cool slightly.</li>
+              <li>Season chicken with salt and pepper. Grill or pan-sear 6–7 minutes per side until cooked through. Rest 5 minutes, then slice.</li>
+              <li>Whisk olive oil, vinegar, Dijon, garlic, salt, and pepper for the vinaigrette.</li>
+              <li>Toss quinoa with tomatoes, cucumber, parsley, and half the vinaigrette.</li>
+              <li>Top with sliced chicken and feta, then drizzle remaining vinaigrette over the top.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-chicken-quinoa" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 7: CHOCOLATE MOUSSE -->
+    <div class="full-recipe" id="chocolate-mousse">
+      <div class="full-photo photo-7"><div class="photo-orb">🍫</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Dessert · Serves 4</div>
+            <h2>Dark Chocolate Avocado Mousse</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">190</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">4g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">22g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">11g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">8g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          This is the dessert that quietly proves "healthy" and "actually good" aren't opposites. Avocado's monounsaturated fat is what gives this its rich, mousse-like texture without a stick of butter or a drop of heavy cream anywhere near it, and the fiber from both the avocado and the cocoa means this hits your blood sugar a lot more gently than a slice of chocolate cake would. Four ingredients, one blender, zero baking — this is the "I want dessert but it's a Tuesday" answer.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 10 min + 1 hr chill</span>
+          <span class="meta-chip">📊 Skill: Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>2 ripe avocados, halved and pitted</li>
+              <li>1/3 cup unsweetened cocoa powder</li>
+              <li>1/4 cup maple syrup or honey</li>
+              <li>1/4 cup unsweetened almond milk</li>
+              <li>1 tsp vanilla extract</li>
+              <li>Pinch of sea salt</li>
+              <li>Optional: dark chocolate shavings or berries, to top</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Scoop avocado flesh into a food processor or blender.</li>
+              <li>Add cocoa powder, maple syrup, almond milk, vanilla, and salt.</li>
+              <li>Blend until completely smooth, scraping down the sides as needed, 2–3 minutes.</li>
+              <li>Taste and adjust sweetness if needed.</li>
+              <li>Divide into 4 small bowls or jars and chill at least 1 hour.</li>
+              <li>Top with chocolate shavings or berries just before serving.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-chocolate-mousse" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 8: CHICKPEA SNACK -->
+    <div class="full-recipe" id="chickpea-snack">
+      <div class="full-photo photo-8"><div class="photo-orb">🫘</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Snack · Serves 4</div>
+            <h2>Crispy Roasted Chickpea &amp; Almond Mix</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">210</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">8g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">24g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">8g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">9g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          Most "healthy" snacks are really just smaller versions of the same processed stuff. This one is dried beans and nuts in an oven — nothing to decode on a label because there isn't one. Chickpeas roasted dry get genuinely crunchy, and the fiber-plus-protein combination with the almonds is what separates a snack that holds you over from one that just delays the next craving by twenty minutes. Make a double batch — it disappears faster than you'd expect from something this virtuous.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 35 min total</span>
+          <span class="meta-chip">📊 Skill: Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>2 cans (15 oz each) chickpeas, drained, rinsed, patted dry</li>
+              <li>2 tbsp olive oil</li>
+              <li>1 tsp smoked paprika</li>
+              <li>1/2 tsp garlic powder</li>
+              <li>1/2 tsp sea salt</li>
+              <li>1 cup raw almonds</li>
+              <li>Optional: pinch of cayenne, for heat</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Preheat oven to 400°F (200°C) and line a sheet pan with parchment.</li>
+              <li>Toss dried chickpeas with olive oil, paprika, garlic powder, and salt.</li>
+              <li>Spread in a single layer and roast 25–30 minutes, shaking the pan halfway, until golden and crisp.</li>
+              <li>Add almonds to the pan for the final 8–10 minutes of roasting.</li>
+              <li>Let cool completely on the pan — they crisp up further as they cool.</li>
+              <li>Store in an airtight container at room temperature up to 5 days.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-chickpea-snack" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 9: TONIC & BITTERS -->
+    <div class="full-recipe" id="tonic-bitters">
+      <div class="full-photo photo-9"><div class="photo-orb">🥃</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Mocktail · Serves 1</div>
+            <h2>Sugar-Free Tonic &amp; Bitters, on the Rocks</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">5</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">1g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          This is the drink for the person who wants "I'm having a cocktail" energy without actually deciding on one. Aromatic bitters are made from botanicals steeped in high-proof alcohol, but the dash or two you actually use per drink amounts to a rounding error — nowhere near enough to register as a meaningful dose of anything, alcohol included. Swap the sugared tonic for a sugar-free version and you've got something that photographs like a real cocktail and costs you about the calories of a stick of gum.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 3 min total</span>
+          <span class="meta-chip">📊 Skill: Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>6 oz sugar-free tonic water, chilled</li>
+              <li>3–4 dashes aromatic bitters</li>
+              <li>Ice</li>
+              <li>Lime wedge, to garnish</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Fill a rocks glass with ice.</li>
+              <li>Add bitters directly over the ice.</li>
+              <li>Top with sugar-free tonic water.</li>
+              <li>Stir gently once to combine.</li>
+              <li>Garnish with a lime wedge and serve.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-tonic-bitters" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 10: MOCKARITA -->
+    <div class="full-recipe" id="mockarita">
+      <div class="full-photo photo-10"><div class="photo-orb">🍹</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Mocktail · Serves 1</div>
+            <h2>Pineapple Jalapeño Mockarita</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">60</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">1g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">14g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          Monkfruit extract is sweet enough that a tiny amount does the job of a few tablespoons of simple syrup, which is the only sleight of hand happening here — the pineapple juice is doing the actual flavor work, and its natural sugars are still fully present and accounted for in the carb count. The jalapeño is optional heat, not a garnish for show: muddle it lightly if you want warmth in the background, or skip it entirely and this is just a very good virgin margarita with a passport stamp.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 8 min total</span>
+          <span class="meta-chip">📊 Skill: Medium <span class="skill-dots"><span class="filled"></span><span class="filled"></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>3 oz fresh pineapple juice</li>
+              <li>1 oz fresh lime juice</li>
+              <li>1–2 thin jalapeño slices (seeds removed for less heat)</li>
+              <li>Monkfruit sweetener, to taste</li>
+              <li>Splash of sparkling water</li>
+              <li>Tajín or salt, for the rim</li>
+              <li>Ice</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Rim a glass with tajín or salt and set aside.</li>
+              <li>In a shaker, lightly muddle the jalapeño slices.</li>
+              <li>Add pineapple juice, lime juice, monkfruit sweetener, and ice. Shake well.</li>
+              <li>Strain into the prepared glass over fresh ice.</li>
+              <li>Top with a splash of sparkling water.</li>
+              <li>Garnish with a pineapple wedge or jalapeño slice.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-mockarita" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 11: WHISKEY SOUR MOCKTAIL -->
+    <div class="full-recipe" id="whiskey-sour-mocktail">
+      <div class="full-photo photo-11"><div class="photo-orb">🍋</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Mocktail · Serves 1</div>
+            <h2>Whiskey Sour Mocktail</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">45</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">4g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">2g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          The classic whiskey sour's signature silky foam comes from egg white, not the whiskey — it's a texture trick, and it works exactly the same way here. Brewing black tea strong and letting it cool gives you tannins and a bit of bitterness that stands in for the depth whiskey would normally provide, while the lemon juice and monkfruit handle the sour-sweet balance. Dry-shake the egg white alone first (no ice) to build the foam, then shake again with ice — skip that step and you'll just have sour tea, which is a different, less interesting drink. It's also the one mocktail on this page that shows up with actual protein attached.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 10 min total</span>
+          <span class="meta-chip">📊 Skill: Medium <span class="skill-dots"><span class="filled"></span><span class="filled"></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>2 oz very strongly brewed black tea, cooled</li>
+              <li>3/4 oz fresh lemon juice</li>
+              <li>Monkfruit sweetener, to taste</li>
+              <li>1 egg white (or 2 tbsp pasteurized liquid egg white)</li>
+              <li>2 dashes aromatic bitters</li>
+              <li>Ice</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Brew black tea extra strong (double the usual amount of tea), then chill completely.</li>
+              <li>Add the egg white to a shaker and dry-shake (no ice) for 15 seconds to build foam.</li>
+              <li>Add the cooled tea, lemon juice, monkfruit sweetener, and ice. Shake hard for 15–20 seconds.</li>
+              <li>Strain into a rocks glass over fresh ice.</li>
+              <li>Top with a few dashes of bitters for color and aroma.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-whiskey-sour-mocktail" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 12: LEMON DROP MOCKTINI -->
+    <div class="full-recipe" id="lemon-drop-mocktini">
+      <div class="full-photo photo-12"><div class="photo-orb">🍸</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Mocktail · Serves 1</div>
+            <h2>Lemon Drop Mocktini</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">15</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">4g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          A real lemon drop is mostly sugar syrup wearing a lemon costume — this version flips that ratio, leaning on actual lemon juice and just enough monkfruit to round off the edge instead of burying it. Served up in a coupe or martini glass with a twist, it looks like the kind of drink that took effort, which is generous phrasing for "juiced a lemon." Skip the sugar rim entirely and this stays in the teens, calorie-wise.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 5 min total</span>
+          <span class="meta-chip">📊 Skill: Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>2 oz fresh lemon juice</li>
+              <li>Monkfruit sweetener or light simple syrup, to taste</li>
+              <li>Splash of sparkling water</li>
+              <li>Sugar, for the rim (optional)</li>
+              <li>Ice</li>
+              <li>Lemon twist, to garnish</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Rim a martini glass with sugar, if using, and set aside.</li>
+              <li>Add lemon juice, sweetener, and ice to a shaker. Shake well.</li>
+              <li>Strain into the prepared glass.</li>
+              <li>Top with a splash of sparkling water.</li>
+              <li>Garnish with a lemon twist and serve immediately.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-lemon-drop-mocktini" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 13: MOCKSCOW MULE -->
+    <div class="full-recipe" id="mockscow-mule">
+      <div class="full-photo photo-13"><div class="photo-orb">🫚</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Mocktail · Serves 1</div>
+            <h2>Mockscow Mule</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">10</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">2g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">0g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          The ginger beer is doing almost all of the calorie work in a real Moscow mule, so swapping in a sugar-free version is the single highest-leverage change you can make to this drink without touching anything else about it. Fresh lime and mint do what they've always done. Serve it in a copper mug if you have one — it doesn't change the taste, but the mug staying colder longer is a real, physics-backed reason to bother, not just aesthetic tradition.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 5 min total</span>
+          <span class="meta-chip">📊 Skill: Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>4 oz sugar-free ginger beer</li>
+              <li>1/2 oz fresh lime juice</li>
+              <li>Fresh mint sprig</li>
+              <li>Ice</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Fill a copper mug (or rocks glass) with ice.</li>
+              <li>Add fresh lime juice.</li>
+              <li>Top with sugar-free ginger beer.</li>
+              <li>Stir gently to combine.</li>
+              <li>Garnish with a fresh mint sprig and a lime wheel.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-mockscow-mule" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 14: FROZEN BANANAS -->
+    <div class="full-recipe" id="frozen-bananas">
+      <div class="full-photo photo-14"><div class="photo-orb">🍌</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Dessert · Serves 4</div>
+            <h2>Chocolate-Covered Frozen Bananas</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">140</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">2g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">22g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">7g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">3g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          Freezing a banana does something a raw one can't: the flesh firms up and turns genuinely creamy, closer to soft-serve than fruit, without a drop of dairy involved. Dipping it in a thin layer of melted dark chocolate rather than a thick candy-shell coating is what keeps this in dessert territory instead of candy-bar territory — dark chocolate at 70% or higher also means less added sugar per bite than milk chocolate, for whatever that's worth to you. The coconut oil isn't optional flavor, it's what keeps the chocolate from seizing up and cracking off the second it hits the cold banana.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 15 min + 2 hr freeze</span>
+          <span class="meta-chip">📊 Skill: Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: Yes, 2 weeks</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>2 ripe bananas, peeled and halved crosswise</li>
+              <li>4 popsicle sticks</li>
+              <li>3/4 cup dark chocolate chips (70%+)</li>
+              <li>1 tsp coconut oil</li>
+              <li>Optional: crushed peanuts, shredded coconut, or flaky sea salt, for topping</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Insert a popsicle stick into the cut end of each banana half. Freeze on a parchment-lined tray for at least 1 hour.</li>
+              <li>Melt chocolate chips and coconut oil together in 20-second microwave bursts, stirring between each, until smooth.</li>
+              <li>Working quickly, dip each frozen banana half into the melted chocolate, turning to coat and letting excess drip off.</li>
+              <li>Sprinkle with toppings immediately, before the chocolate sets.</li>
+              <li>Return to the parchment-lined tray and freeze at least 1 more hour, until the shell is fully hardened.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-frozen-bananas" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 15: ANGEL FOOD CAKE -->
+    <div class="full-recipe" id="angel-food-cake">
+      <div class="full-photo photo-15"><div class="photo-orb">🍰</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Dessert · Serves 6</div>
+            <h2>Mini Angel Food Cake with Sugar-Free Cool Whip &amp; Berries</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">130</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">3g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">25g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">1g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">2g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          Angel food cake is the one cake that was already doing the healthy-swap work before "healthy swap" was a phrase — it's whipped egg whites, flour, and sugar, with no butter, oil, or yolks in the ingredient list at all, which is exactly why it's fat-free by default rather than by substitution. The sugar in the batter isn't really optional; it's what stabilizes the egg white foam that gives the cake its structure, so this is one dessert where cutting it further would cost you the cake itself. That's what makes topping it with sugar-free Cool Whip and fresh berries the higher-leverage move — it's where the actual calorie savings happen without touching the part of the recipe that can't afford to change.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 40 min total</span>
+          <span class="meta-chip">📊 Skill: Medium <span class="skill-dots"><span class="filled"></span><span class="filled"></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: No</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>6 large egg whites, room temperature</li>
+              <li>1/2 tsp cream of tartar</li>
+              <li>1/3 cup granulated sugar, divided</li>
+              <li>1/3 cup cake flour, sifted</li>
+              <li>1/4 tsp salt</li>
+              <li>1/2 tsp vanilla extract</li>
+              <li>1 cup sugar-free Cool Whip, thawed</li>
+              <li>1 cup mixed berries</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Preheat oven to 350°F (175°C). Have an ungreased mini angel food cake pan or muffin tin ready — greasing prevents the batter from climbing and rising properly.</li>
+              <li>Beat egg whites and cream of tartar until foamy. Gradually add half the sugar, beating until stiff, glossy peaks form.</li>
+              <li>Sift together the remaining sugar, cake flour, and salt. Gently fold into the egg whites in three additions along with the vanilla — do not overmix.</li>
+              <li>Divide batter among the pan cavities and bake 18–20 minutes, until golden and springy to the touch.</li>
+              <li>Cool the cakes upside down before removing from the pan, to keep them from collapsing.</li>
+              <li>Top each mini cake with sugar-free Cool Whip and fresh berries just before serving.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-angel-food-cake" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+    <!-- 16: YOGURT BARK -->
+    <div class="full-recipe" id="yogurt-bark">
+      <div class="full-photo photo-16"><div class="photo-orb">🍓</div></div>
+      <div class="full-recipe-body">
+        <div class="full-recipe-head">
+          <div>
+            <div class="full-tag">Dessert · Serves 6</div>
+            <h2>Frozen Greek Yogurt Bark with Berries &amp; Dark Chocolate</h2>
+          </div>
+          <div class="nutri-box">
+            <div class="nutri-item"><span class="num">100</span><span class="lbl">Calories</span></div>
+            <div class="nutri-item"><span class="num">6g</span><span class="lbl">Protein</span></div>
+            <div class="nutri-item"><span class="num">12g</span><span class="lbl">Carbs</span></div>
+            <div class="nutri-item"><span class="num">2g</span><span class="lbl">Fat</span></div>
+            <div class="nutri-item"><span class="num">2g</span><span class="lbl">Fiber</span></div>
+          </div>
+        </div>
+        <p class="full-recipe-blurb">
+          Freezing doesn't touch Greek yogurt's protein — it's still there, just locked into a colder, firmer format — but freezing a full tub of it the normal way turns it into something closer to a protein-flavored ice cube than a dessert. Spreading it out thin on a sheet pan solves that: more surface area means it's thin enough to actually bite through cleanly, and breaking it into bark-sized shards instead of scooping it means every piece gets its own ratio of berries and chocolate instead of you fishing for the good parts. This is the same frozen-yogurt idea everyone already likes, just built in a format that doesn't fight you on the way out of the freezer.
+        </p>
+        <div class="recipe-meta-row">
+          <span class="meta-chip">⏱ 10 min + 3 hr freeze</span>
+          <span class="meta-chip">📊 Skill: Easy <span class="skill-dots"><span class="filled"></span><span></span><span></span></span></span>
+          <span class="meta-chip">🧊 Freezes: Yes, 2 weeks</span>
+        </div>
+        <div class="recipe-columns">
+          <div>
+            <h4>Ingredients</h4>
+            <ul class="ingredient-list">
+              <li>2 cups plain nonfat Greek yogurt</li>
+              <li>2 tbsp honey or monkfruit syrup</li>
+              <li>1/2 tsp vanilla extract</li>
+              <li>1 cup mixed berries (sliced strawberries, blueberries, raspberries)</li>
+              <li>2 tbsp dark chocolate, chopped or shaved</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Instructions</h4>
+            <ol class="steps-list">
+              <li>Line a sheet pan with parchment paper.</li>
+              <li>Whisk together Greek yogurt, honey or monkfruit syrup, and vanilla until smooth.</li>
+              <li>Spread the mixture evenly onto the parchment in a thin, even layer, about 1/4 inch thick.</li>
+              <li>Scatter berries and chopped dark chocolate evenly over the top, pressing lightly so they stick.</li>
+              <li>Freeze at least 3 hours, or until completely solid.</li>
+              <li>Break into pieces and serve straight from the freezer.</li>
+            </ol>
+          </div>
+        </div>
+        <a href="#card-yogurt-bark" class="back-to-top">↑ Back to all recipes</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="newsletter">
+    <h3>Want More Health &amp; Wellness Tips?</h3>
+    <p>Sign up for our newsletter. We send 1 email a week of stuff you truly want to know.</p>
+    <div class="nl-form">
+      <input type="email" id="nl-email" placeholder="you@email.com">
+      <button id="nl-btn">Sign Up</button>
+    </div>
+    <div class="nl-success" id="nl-success">You're in! Check your inbox 🌿</div>
+  </div>
+
+  <footer>
+    <div class="disclaimer">
+      Baseline provides general health and wellness information for educational purposes only. It is not medical advice and doesn't account for individual health conditions. Speak with a physician or registered dietitian before making significant changes to your diet or exercise routine. Baseline may earn a commission on products linked from this site.
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Baseline</div>
+      <div>Affiliate Disclosure</div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+  document.getElementById('nl-btn').addEventListener('click', () => {
+    const email = document.getElementById('nl-email').value.trim();
+    if(!isValidEmail(email)){ alert('Enter a valid email to subscribe.'); return; }
+    document.getElementById('nl-success').classList.add('show');
+    document.getElementById('nl-email').value = '';
+  });
+
+  const filterPills = document.querySelectorAll('.filter-pill');
+  const recipeCards = document.querySelectorAll('.recipe-card');
+  const noResults = document.getElementById('no-results');
+  let activeFilter = 'all';
+
+  function applyFilter(){
+    let visibleCount = 0;
+    recipeCards.forEach(card => {
+      const tags = (card.dataset.tags || '').split(' ');
+      const matches = activeFilter === 'all' || tags.includes(activeFilter);
+      card.classList.toggle('hidden', !matches);
+      if(matches) visibleCount++;
+    });
+    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      const filter = pill.dataset.filter;
+      activeFilter = (filter === 'all' || filter === activeFilter) ? 'all' : filter;
+      filterPills.forEach(p => p.classList.toggle('active', p.dataset.filter === activeFilter));
+      applyFilter();
+    });
+  });
+</script>
+
+</body>
+</html>

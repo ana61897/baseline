@@ -48,6 +48,11 @@
   }
   .nav-links a:hover{color:var(--olive);}
   .nav-links a.active{color:var(--gold-dark); border-color:var(--gold);}
+  @media (max-width:640px){
+    .nav-links{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:18px;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-links a{white-space:nowrap; flex-shrink:0;}
+  }
 
   /* HERO */
   .hero{padding:60px 0 20px; text-align:center;}
@@ -145,6 +150,7 @@
       <a href="index.html" class="active">Home</a>
       <a href="tdee-calculator.html">TDEE Calculator</a>
       <a href="product-swaps.html">Product Swaps</a>
+      <a href="recipes.html">Recipes</a>
       <a href="blog.html">Blog</a>
     </div>
   </div>
