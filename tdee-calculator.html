@@ -673,9 +673,6 @@
   }
   .gate-consent label{font-size:11px; color:var(--text-lo); line-height:1.5;}
   .gate-error{color:#B8562E; font-size:12px; margin-top:8px; display:none; font-weight:600;}
-  .sent-note{
-    text-align:center; color:var(--olive); font-size:13px; font-weight:700; margin-top:18px;
-  }
 
   /* EDUCATIONAL CARDS */
   .edu-section{margin-top:60px;}
@@ -736,30 +733,65 @@
   .nl-success{margin-top:14px; font-size:13px; font-weight:700; display:none;}
   .nl-success.show{display:block;}
 
-  /* SWAP PROMO */
-  .swap-promo{
-    margin-top:40px;
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:40px;
-    text-align:center;
-    box-shadow:var(--shadow);
+  /* SWAP CAROUSEL */
+  .swap-carousel-section{margin-top:40px;}
+  .swap-carousel-header{
+    display:flex; justify-content:flex-end; align-items:center; margin-bottom:14px;
   }
-  .swap-promo .swap-promo-icon{
+  .swap-carousel-controls{display:flex; align-items:center; gap:10px;}
+  .swap-carousel-btn{
+    width:38px; height:38px; border-radius:50%; background:var(--card); border:1px solid var(--line);
+    box-shadow:var(--shadow); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:15px; color:var(--text-hi); font-family:inherit; padding:0;
+  }
+  .swap-carousel-btn:hover{border-color:var(--gold); color:var(--gold-dark);}
+
+  .swap-carousel-track{
+    display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory;
+    padding:4px 4px 10px; scrollbar-width:none;
+  }
+  .swap-carousel-track::-webkit-scrollbar{display:none;}
+
+  .swap-slide{
+    flex:0 0 auto; scroll-snap-align:start;
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); display:flex; flex-direction:column;
+  }
+
+  .swap-slide.intro{
+    width:290px; padding:32px 26px; text-align:center; align-items:center; justify-content:center;
+  }
+  .swap-slide.intro .swap-promo-icon{
     width:52px; height:52px; border-radius:50%; background:var(--cream-2);
     display:flex; align-items:center; justify-content:center; font-size:23px;
-    margin:0 auto 18px;
+    margin-bottom:16px;
   }
-  .swap-promo h3{font-size:24px;}
-  .swap-promo p{color:var(--text-lo); font-size:14px; margin-top:10px; max-width:420px; margin-left:auto; margin-right:auto;}
+  .swap-slide.intro h3{font-size:19px;}
+  .swap-slide.intro p{color:var(--text-lo); font-size:13px; margin-top:10px; line-height:1.6;}
   .swap-promo-btn{
-    display:inline-block; margin-top:22px;
+    display:inline-block; margin-top:18px;
     background:var(--olive); color:#fff; text-decoration:none;
-    font-weight:800; font-size:14px; padding:14px 28px; border-radius:999px;
+    font-weight:800; font-size:13.5px; padding:12px 22px; border-radius:999px;
     transition:background .15s ease;
   }
   .swap-promo-btn:hover{background:var(--olive-dark);}
+
+  .swap-slide.product{width:270px; padding:24px;}
+  .mini-swap-flow{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .mini-swap-out, .mini-swap-in{
+    font-size:12.5px; font-weight:700; padding:7px 13px; border-radius:999px;
+  }
+  .mini-swap-out{background:var(--cream-2); color:var(--text-lo); text-decoration:line-through;}
+  .mini-swap-in{background:var(--olive); color:#fff;}
+  .mini-swap-arrow{color:var(--gold-dark); font-size:15px;}
+  .mini-swap-desc{font-size:13px; color:var(--text-mid); margin-top:14px; line-height:1.6; flex-grow:1;}
+  .mini-swap-btn{
+    display:inline-block; margin-top:14px; background:var(--gold); color:#fff;
+    text-decoration:none; font-size:12.5px; font-weight:800; padding:10px 18px; border-radius:999px;
+    align-self:flex-start;
+  }
+  .mini-swap-btn:hover{background:var(--gold-dark);}
+  .mini-swap-note{font-size:10.5px; color:var(--text-lo); margin-top:9px; line-height:1.5;}
 
   /* FOOTER */
   footer{margin-top:70px; border-top:1px solid var(--line); padding:30px 0 60px;}
@@ -790,6 +822,7 @@
     .pace-options{grid-template-columns:1fr; max-width:320px;}
     .gain-options{grid-template-columns:1fr; max-width:280px;}
     .modal-card{padding:26px 22px;}
+    .swap-carousel-btn{display:none;}
     .nl-form{flex-direction:column;}
 
     /* Spectrum: rows stack full width, stay big and readable */
@@ -1054,7 +1087,6 @@
         </div>
       </div>
     </div>
-    <div class="sent-note" id="sent-note" style="display:none;"></div>
 
     <!-- EDUCATIONAL CARDS -->
     <div class="edu-section">
@@ -1094,15 +1126,98 @@
         <input type="email" id="nl-email" placeholder="you@email.com">
         <button id="nl-btn">Sign Up</button>
       </div>
-      <div class="nl-success" id="nl-success">You're in! Check your inbox 🌿</div>
+      <div class="nl-success" id="nl-success">You're in! 🌿</div>
     </div>
 
-    <!-- PRODUCT SWAPS PROMO -->
-    <div class="swap-promo">
-      <div class="swap-promo-icon">🔄</div>
-      <h3>Ready For Better Ingredients?</h3>
-      <p>Once you know your numbers, the next step is finding what actually fits in them. Check out our favorite product swaps to keep nutrition high and calories low.</p>
-      <a href="product-swaps.html" class="swap-promo-btn">See Product Swaps →</a>
+    <!-- PRODUCT SWAPS CAROUSEL -->
+    <div class="swap-carousel-section">
+      <div class="swap-carousel-header">
+        <div class="swap-carousel-controls">
+          <button class="swap-carousel-btn" id="swap-carousel-prev" aria-label="Previous swap">←</button>
+          <button class="swap-carousel-btn" id="swap-carousel-next" aria-label="Next swap">→</button>
+        </div>
+      </div>
+      <div class="swap-carousel-track" id="swap-carousel-track">
+
+        <div class="swap-slide intro">
+          <div class="swap-promo-icon">🔄</div>
+          <h3>Ready For Better Ingredients?</h3>
+          <p>Once you know your numbers, the next step is finding what actually fits in them. Check out our favorite product swaps to keep nutrition high and calories low.</p>
+          <a href="product-swaps.html" class="swap-promo-btn">See Product Swaps →</a>
+        </div>
+
+        <div class="swap-slide product">
+          <div class="mini-swap-flow">
+            <span class="mini-swap-out">Alcohol</span>
+            <span class="mini-swap-arrow">→</span>
+            <span class="mini-swap-in">Buzz Drops</span>
+          </div>
+          <p class="mini-swap-desc">A few drops mixed into any mocktail gives you the social, relaxed part of a drink without alcohol's calories or the next-day crash.</p>
+          <a href="https://redwoodreserves.com/products/buzz-drops-non-alcoholic-mocktail-recipe-drops?srsltid=AfmBOorXkAkI50CQiQDyy6AtAvitv3M9SzDW2RnoJh9oH0MzUBqr5Y7r" class="mini-swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
+          <div class="mini-swap-note">21+ only. Contains cannabis extract — check local laws.</div>
+        </div>
+
+        <div class="swap-slide product">
+          <div class="mini-swap-flow">
+            <span class="mini-swap-out">White Bread</span>
+            <span class="mini-swap-arrow">→</span>
+            <span class="mini-swap-in">Keto Bread</span>
+          </div>
+          <p class="mini-swap-desc">A fraction of the net carbs and a much smaller blood sugar spike — without giving up the sandwich.</p>
+          <a href="https://amzn.to/4c2hmHm" class="mini-swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
+        </div>
+
+        <div class="swap-slide product">
+          <div class="mini-swap-flow">
+            <span class="mini-swap-out">Soda</span>
+            <span class="mini-swap-arrow">→</span>
+            <span class="mini-swap-in">Recess Adaptogen Water</span>
+          </div>
+          <p class="mini-swap-desc">Keeps the fizz and the ritual, drops the sugar — just 20 calories a can.</p>
+          <a href="https://amzn.to/4z3N15a" class="mini-swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
+        </div>
+
+        <div class="swap-slide product">
+          <div class="mini-swap-flow">
+            <span class="mini-swap-out">Sugar</span>
+            <span class="mini-swap-arrow">→</span>
+            <span class="mini-swap-in">Monkfruit (In The Raw)</span>
+          </div>
+          <p class="mini-swap-desc">Zero calories, no blood sugar spike, and no bitter aftertaste to work around.</p>
+          <a href="https://amzn.to/3RE7Q6u" class="mini-swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
+        </div>
+
+        <div class="swap-slide product">
+          <div class="mini-swap-flow">
+            <span class="mini-swap-out">Doritos</span>
+            <span class="mini-swap-arrow">→</span>
+            <span class="mini-swap-in">Quest Protein Chips</span>
+          </div>
+          <p class="mini-swap-desc">Same crunchy, cheesy snack format, built around real protein instead of fried corn and oil.</p>
+          <a href="https://amzn.to/4wcPzeC" class="mini-swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
+        </div>
+
+        <div class="swap-slide product">
+          <div class="mini-swap-flow">
+            <span class="mini-swap-out">Popcorn Bags</span>
+            <span class="mini-swap-arrow">→</span>
+            <span class="mini-swap-in">Silicone Popper</span>
+          </div>
+          <p class="mini-swap-desc">Skips the oil coating and additives baked into microwave bags — finish with a light spray of real butter flavor.</p>
+          <a href="https://amzn.to/4fHXmMz" class="mini-swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
+        </div>
+
+        <div class="swap-slide product">
+          <div class="mini-swap-flow">
+            <span class="mini-swap-out">Ice Cream</span>
+            <span class="mini-swap-arrow">→</span>
+            <span class="mini-swap-in">Ninja Creami</span>
+          </div>
+          <p class="mini-swap-desc">Real soft-serve texture built around whatever macros you actually want.</p>
+          <a href="https://amzn.to/4bym9A6" class="mini-swap-btn" target="_blank" rel="noopener">Shop This Swap</a>
+        </div>
+
+      </div>
     </div>
 
   </div>
@@ -1115,6 +1230,7 @@
       <div>© 2026 Baseline</div>
       <div>Affiliate Disclosure</div>
     </div>
+    <div class="foot-contact">Reach out @ mytruebaseline@gmail.com</div>
   </footer>
 
 </div>
@@ -1457,10 +1573,6 @@
     document.getElementById('gate-overlay').classList.add('hidden');
     document.getElementById('macro-grid').classList.add('unlocked');
     document.getElementById('macro-preview').classList.add('unlocked');
-
-    const sentNote = document.getElementById('sent-note');
-    sentNote.style.display = 'block';
-    sentNote.textContent = `✓ Sent to ${email}`;
   });
 
   document.getElementById('nl-btn').addEventListener('click', () => {
@@ -1472,6 +1584,15 @@
     sendToSheet(email, 'newsletter');
     document.getElementById('nl-success').classList.add('show');
     document.getElementById('nl-email').value = '';
+  });
+
+  const swapTrack = document.getElementById('swap-carousel-track');
+  const swapScrollAmount = 300;
+  document.getElementById('swap-carousel-prev').addEventListener('click', () => {
+    swapTrack.scrollBy({ left: -swapScrollAmount, behavior: 'smooth' });
+  });
+  document.getElementById('swap-carousel-next').addEventListener('click', () => {
+    swapTrack.scrollBy({ left: swapScrollAmount, behavior: 'smooth' });
   });
 </script>
 
