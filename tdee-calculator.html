@@ -673,9 +673,6 @@
   }
   .gate-consent label{font-size:11px; color:var(--text-lo); line-height:1.5;}
   .gate-error{color:#B8562E; font-size:12px; margin-top:8px; display:none; font-weight:600;}
-  .sent-note{
-    text-align:center; color:var(--olive); font-size:13px; font-weight:700; margin-top:18px;
-  }
 
   /* EDUCATIONAL CARDS */
   .edu-section{margin-top:60px;}
@@ -1090,7 +1087,6 @@
         </div>
       </div>
     </div>
-    <div class="sent-note" id="sent-note" style="display:none;"></div>
 
     <!-- EDUCATIONAL CARDS -->
     <div class="edu-section">
@@ -1130,7 +1126,7 @@
         <input type="email" id="nl-email" placeholder="you@email.com">
         <button id="nl-btn">Sign Up</button>
       </div>
-      <div class="nl-success" id="nl-success">You're in! Check your inbox 🌿</div>
+      <div class="nl-success" id="nl-success">You're in! 🌿</div>
     </div>
 
     <!-- PRODUCT SWAPS CAROUSEL -->
@@ -1234,6 +1230,7 @@
       <div>© 2026 Baseline</div>
       <div>Affiliate Disclosure</div>
     </div>
+    <div class="foot-contact">Reach out @ mytruebaseline@gmail.com</div>
   </footer>
 
 </div>
@@ -1576,10 +1573,6 @@
     document.getElementById('gate-overlay').classList.add('hidden');
     document.getElementById('macro-grid').classList.add('unlocked');
     document.getElementById('macro-preview').classList.add('unlocked');
-
-    const sentNote = document.getElementById('sent-note');
-    sentNote.style.display = 'block';
-    sentNote.textContent = `✓ Sent to ${email}`;
   });
 
   document.getElementById('nl-btn').addEventListener('click', () => {
